@@ -51,22 +51,10 @@ public class MenuContextualHandler extends org.eclipse.core.commands.AbstractHan
 		// Obtener el paquete raíz del metamodelo.
 		EPackage metamodelo = (EPackage)(resource.getContents().get(0));
 		
-		//Obtener nombres de las clases y filtrar por primera letra minuscula
-		for (int i = 0; i < metamodelo.getEClassifiers().size(); i++) {
-			String nombre = metamodelo.getEClassifiers().get(i).getName();
-			String primeraLetra = metamodelo.getEClassifiers().get(i).getName().substring(0, 1);
-			if(primeraLetra.equals(primeraLetra.toLowerCase()))
-				clasesMinuscula.add(nombre);
-			nombres += nombre + " ";
-		}
-		//Pruebas por consola
-		System.out.println(nombres);
-		System.out.println(clasesMinuscula);
-		
 		// Mostrar nombre del metamodelo en un cuadro de diálogo
 		MessageDialog.openInformation(HandlerUtil.getActiveWorkbenchWindowChecked(event).getShell(),
 		"Validador",
-		metamodelo.getName() + " tiene " + metamodelo.getEClassifiers().size() + " clases "
+		metamodelo.getName() + " tiene " + metamodelo.getEClassifiers().size() + " clases: "
 		+ nombres);
 		
 		//Llamar a la vista y actualizarla
