@@ -1,0 +1,50 @@
+<plugin>
+	<extension point="org.eclipse.ui.handlers">
+		<handler class="MenuContextualHandler" commandId="validador-ecore.command">
+		</handler>
+	</extension>
+	<extension point="org.eclipse.ui.menus">
+		<menuContribution allPopups="true" locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+			<command commandId="validador-ecore.command" label="Validar metamodelo">
+				<visibleWhen checkEnabled="false">
+					<iterate>
+						<test property="org.eclipse.core.resources.extension" value="ecore" />
+					</iterate>
+				</visibleWhen>
+			</command>
+		</menuContribution>
+	</extension>
+ <extension
+       point="org.eclipse.ui.views">
+    <category
+          id="Plugin_Validar"
+          name="Herramienta Ecore">
+    </category>
+    <view
+          category="Plugin_Validar"
+          class="plugin_validar.views.SampleView"
+          icon="icons/sample.png"
+          id="plugin_validar.views.SampleView"
+          inject="true"
+          name="Criterio Calidad">
+    </view>
+ </extension>
+ <extension
+       point="org.eclipse.ui.perspectiveExtensions">
+    <perspectiveExtension
+          targetID="org.eclipse.jdt.ui.JavaPerspective">
+       <view
+             id="plugin_validar.views.SampleView"
+             ratio="0.5"
+             relationship="right"
+             relative="org.eclipse.ui.views.ProblemView">
+       </view>
+    </perspectiveExtension>
+ </extension>
+ <extension
+       point="org.eclipse.help.contexts">
+    <contexts
+          file="contexts.xml">
+    </contexts>
+ </extension>
+</plugin>
