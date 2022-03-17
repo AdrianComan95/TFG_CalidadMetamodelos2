@@ -22,9 +22,9 @@
     </category>
     <view
           category="Plugin_Validar"
-          class="plugin_validar.views.SampleView"
+          class="plugin_validar.views.ProblemsView"
           icon="icons/sample.png"
-          id="plugin_validar.views.SampleView"
+          id="plugin_validar.views.ProblemsView"
           inject="true"
           name="Criterio Calidad">
     </view>
@@ -34,7 +34,7 @@
     <perspectiveExtension
           targetID="org.eclipse.jdt.ui.JavaPerspective">
        <view
-             id="plugin_validar.views.SampleView"
+             id="plugin_validar.views.ProblemsView"
              ratio="0.5"
              relationship="right"
              relative="org.eclipse.ui.views.ProblemView">

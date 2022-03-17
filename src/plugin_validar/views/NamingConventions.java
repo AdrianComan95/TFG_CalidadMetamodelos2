@@ -17,52 +17,53 @@ public class NamingConventions {
 	
 	public ArrayList<String> getLowerClass () {
 		
-		ArrayList<String> lowerClass = new ArrayList<String>();
+		ArrayList<String> problems = new ArrayList<String>();
 		
-		for (int i = 0; i < metamodelo.getEClassifiers().size(); i++) {
-			String name = metamodelo.getEClassifiers().get(i).getName();
-			String primeraLetra = metamodelo.getEClassifiers().get(i).getName().substring(0, 1);
+		for (EClassifier classifier : metamodelo.getEClassifiers()) {
+			String primeraLetra = classifier.getName().substring(0, 1);
 			if(primeraLetra.equals(primeraLetra.toLowerCase()))
-				lowerClass.add("La clase '" + name + "'no empieza con mayúscula");
+				problems.add("La clase '" + classifier.getName() + "' no empieza con mayúscula");
 		}		
 		
-		return lowerClass;
+		return problems;
 		
 	}
 	
 	public ArrayList<String> getN01 () {
 			
-			ArrayList<String> attributes = new ArrayList<String>();
+			ArrayList<String> problems = new ArrayList<String>();
 			
 			for (EClassifier classifier : metamodelo.getEClassifiers()) {
 				String nClass = classifier.getName().toLowerCase();
 				if (classifier instanceof EClass) {
 				      for (EAttribute attribute : ((EClass)classifier).getEAllAttributes()) {
 				    	  if (attribute.getName().contains(nClass))
-				    		  attributes.add(attribute.getName());
+				    		  problems.add("El atributo " + attribute.getName() + "." + classifier.getName() 
+				              + " tiene el mismo nombre que su clase entidad");
 				      }
 				   }
 			}		
 			
-			return attributes;
+			return problems;
 	
 	}
 	
 	public ArrayList<String> getN02 () {
 		
-		ArrayList<String> attributes = new ArrayList<String>();
+		ArrayList<String> problems = new ArrayList<String>();
 		
 		for (EClassifier classifier : metamodelo.getEClassifiers()) {
 			String nClass = classifier.getName().toLowerCase();
 			if (classifier instanceof EClass) {
 			      for (EAttribute attribute : ((EClass)classifier).getEAllAttributes()) {
 			    	  if (attribute.getName().equals(nClass))
-			    		  attributes.add(attribute.getName());
+			    		  problems.add("El atributo " + attribute.getName() + "." + classifier.getName() 
+					              + " puede ser una potencial asociación");
 			      }
 			   }
 		}		
 		
-		return attributes;
+		return problems;
 		
 	}
 

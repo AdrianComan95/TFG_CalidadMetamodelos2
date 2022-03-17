@@ -1,10 +1,16 @@
 package plugin_validar.views;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.*;
+
+import BestPractices.*;
+import Design.*;
+import NamingConventions.*;
+
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.jface.action.*;
@@ -16,6 +22,9 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EPackage;
 
 import javax.inject.Inject;
+
+import plugin_validar.views.IProblem;
+import plugin_validar.views.IProblem.ProblemType;
 
 
 /**
@@ -36,12 +45,12 @@ import javax.inject.Inject;
  * <p>
  */
 
-public class SampleView extends ViewPart {
+public class ProblemsView extends ViewPart {
 
 	/**
 	 * The ID of the view as specified by the extension.
 	 */
-	public static final String ID = "plugin_validar.views.SampleView";
+	public static final String ID = "plugin_validar.views.ProblemsView";
 
 	@Inject IWorkbench workbench;
 	
@@ -134,118 +143,71 @@ public class SampleView extends ViewPart {
  */
 
 		///////////////
-		public void update(EPackage metamodelo) {
+		public void update(EPackage metamodel) {
 			TreeParent root = new TreeParent("Criterios de calidad no superados");
 			//TreeParent root = new TreeParent(problems.get(0));
 			
 			//---DISEÑO
-			TreeParent design = new TreeParent("Diseño");
-			root.addChild(design);
 			
-			Design designClass = new Design(metamodelo);
-			
-			//D03
-			
-			ArrayList<String> d03 = designClass.D03();
-			
-			if (d03.size() > 0){
-				TreeParent des03 = new TreeParent("Clase abstracta con un solo hijo (D03)");
-				for (int i=0; i<d03.size();i++) {
-					TreeObject problem = new TreeObject(d03.get(i));
-					des03.addChild( problem );
+			List<IProblem> problems = List.of(new D03(metamodel), new BP01(metamodel),
+					new BP02(metamodel), new LowerClass(metamodel), new N01(metamodel),
+					new N02(metamodel));
+			TreeParent createParentDesign = null;
+			TreeParent createParentBestPractice = null;
+			TreeParent createParentNamingConvection = null;
+			TreeParent createParentMetric = null;
+			for (IProblem p : problems) {
+				List<String>  detectedErrors = p.check();
+				if (p.getProblemType() == ProblemType.DESIGN && detectedErrors.size() > 0) {
+					if (createParentDesign == null) {
+						createParentDesign = new TreeParent("Diseño");
+						root.addChild(createParentDesign);
+					}
+					TreeParent child = new TreeParent(p.getTitle());
+					for (String error : detectedErrors) {
+						TreeObject problem = new TreeObject(error);
+						child.addChild(problem);
+					}
+					createParentDesign.addChild(child);	
 				}
-
-				design.addChild(des03);
-				
-			}
-			
-			//----BUENAS PRACTICAS
-			TreeParent bestP = new TreeParent("Buenas practicas");
-			root.addChild(bestP);
-			
-			BestPractices bestPractices = new BestPractices(metamodelo);
-			
-			//BP01
-			
-			ArrayList<String> bp01 = bestPractices.BP01();
-			
-			if (bp01.size() > 0){
-				TreeParent bestp01 = new TreeParent("Problema de diamante (BP01)");
-				for (int i=0; i<bp01.size();i++) {
-					TreeObject problem = new TreeObject(bp01.get(i));
-					bestp01.addChild( problem );
+				if (p.getProblemType() == ProblemType.BEST_PRACTICE && detectedErrors.size() > 0) {
+					if (createParentBestPractice == null) {
+						createParentBestPractice = new TreeParent("Buenas Practicas");
+						root.addChild(createParentBestPractice);
+					}
+					TreeParent child = new TreeParent(p.getTitle());
+					for (String error : detectedErrors) {
+						TreeObject problem = new TreeObject(error);
+						child.addChild(problem);
+					}
+					createParentBestPractice.addChild(child);
 				}
-
-				bestP.addChild(bestp01);
-				
-			}
-			
-			//BP02
-			
-			ArrayList<String> bp02 = bestPractices.BP02();
-			
-			if (bp02.size() > 0){
-				TreeParent bestp02 = new TreeParent("Clase abstracta sin hijos(BP02)");
-				for (int i=0; i<bp02.size();i++) {
-					TreeObject problem = new TreeObject(bp02.get(i));
-					bestp02.addChild( problem );
+				if (p.getProblemType() == ProblemType.NAMING_CONVENTION && detectedErrors.size() > 0) {
+					if (createParentNamingConvection == null) {
+						createParentNamingConvection = new TreeParent("Convención de nombres");
+						root.addChild(createParentNamingConvection);
+					}
+					TreeParent child = new TreeParent(p.getTitle());
+					for (String error : detectedErrors) {
+						TreeObject problem = new TreeObject(error);
+						child.addChild(problem);
+					}
+					createParentNamingConvection.addChild(child);
 				}
-
-				bestP.addChild(bestp02);
-				
-			}
-			
-			
-			
-			//----CONVENCION DE NOMBRES
-			TreeParent names = new TreeParent("Convencion de nombres");
-			root.addChild(names);
-			
-			NamingConventions namingConventions = new NamingConventions( metamodelo);
-			
-			//CLASES EN MINUSCULA
-			
-			ArrayList<String> lowerclass = namingConventions.getLowerClass();
-			
-			if (lowerclass.size() > 0){
-				TreeParent classLower = new TreeParent("Clases en minuscula");
-				for (int i=0; i<lowerclass.size();i++) {
-					TreeObject problem = new TreeObject(lowerclass.get(i));
-					classLower.addChild( problem );
+				if (p.getProblemType() == ProblemType.METRIC && detectedErrors.size() > 0) {
+					if (createParentMetric == null) {
+						createParentMetric = new TreeParent("Metrica");
+						root.addChild(createParentMetric);
+					}
+					TreeParent child = new TreeParent(p.getTitle());
+					for (String error : detectedErrors) {
+						TreeObject problem = new TreeObject(error);
+						child.addChild(problem);
+					}
+					createParentMetric.addChild(child);
 				}
-
-				names.addChild(classLower);
-				
 			}
-			
-			
-			//----N01	
-			
-			ArrayList<String> attributes = namingConventions.getN01();
-			if (attributes.size() > 0) {
-				TreeParent n01 = new TreeParent("Convención nombres N01");
-				
-				for (int i=0; i<attributes.size();i++) {
-					TreeObject problem = new TreeObject(attributes.get(i));
-					n01.addChild(problem);
-				}
-
-				names.addChild(n01);
-			}
-			
-			attributes = namingConventions.getN02();
-			if (attributes.size() > 0) {
-				TreeParent n01 = new TreeParent("Convención nombres N02");
-				
-				for (int i=0; i<attributes.size();i++) {
-					TreeObject problem = new TreeObject(attributes.get(i));
-					n01.addChild(problem);
-				}
-
-				names.addChild(n01);
-			}
-			
-				
+									
 			
 			if(invisibleRoot == null) {
 				invisibleRoot = new TreeParent("");
@@ -300,9 +262,9 @@ public class SampleView extends ViewPart {
 //	     viewer.refresh();
 //	}
 	
-	public void update (EPackage metamodelo) {
+	public void update (EPackage metamodel) {
 		ViewContentProvider provider = (ViewContentProvider)viewer.getContentProvider();
-	    provider.update(metamodelo);
+	    provider.update(metamodel);
 	    viewer.refresh();
 	}
 	////////////
@@ -330,7 +292,7 @@ public class SampleView extends ViewPart {
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
 			public void menuAboutToShow(IMenuManager manager) {
-				SampleView.this.fillContextMenu(manager);
+				ProblemsView.this.fillContextMenu(manager);
 			}
 		});
 		Menu menu = menuMgr.createContextMenu(viewer.getControl());

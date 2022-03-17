@@ -19,7 +19,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import plugin_validar.views.SampleView;
+import plugin_validar.views.ProblemsView;
 
 public class MenuContextualHandler extends org.eclipse.core.commands.AbstractHandler {
 
@@ -58,8 +58,8 @@ public class MenuContextualHandler extends org.eclipse.core.commands.AbstractHan
 		+ nombres);
 		
 		//Llamar a la vista y actualizarla
-		SampleView view = (SampleView)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView
-				("plugin_validar.views.SampleView");
+		ProblemsView view = (ProblemsView)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView
+				("plugin_validar.views.ProblemsView");
 		//ArrayList<String> prueba = new ArrayList<String>();
 		//prueba.add("Criterios de Calidad");
 		

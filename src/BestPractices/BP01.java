@@ -1,19 +1,30 @@
-package plugin_validar.views;
-
+package BestPractices;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 
-public class BestPractices {
+import plugin_validar.views.IProblem;
+
+public class BP01 implements IProblem {
+	
 	EPackage metamodelo;
 	
+	String title = "Problema de diamante (BP01)";
 	
-	public BestPractices (EPackage metamodelo) {
+	public BP01 (EPackage metamodelo) {
 		this.metamodelo = metamodelo;
 	}
 	
+	@Override
+	public String getTitle() {
+		return this.title;
+	}
+	
+	public ProblemType getProblemType() { return ProblemType.BEST_PRACTICE; }
+
 	private ArrayList<EClass> parentsR (EClass classifier){
 		ArrayList<EClass> parents = new ArrayList<EClass>();
 		
@@ -37,9 +48,9 @@ public class BestPractices {
         return null;
     }
 	
-	public ArrayList<String> BP01 () {
-		
-		ArrayList<String> problem = new ArrayList<String>();
+	@Override
+	public List<String> check() {
+		List<String> problem = new ArrayList<String>();
 		
 		for (EClassifier classifier : metamodelo.getEClassifiers()) {
 			ArrayList<EClass> parents = new ArrayList<EClass>();
@@ -56,33 +67,6 @@ public class BestPractices {
 		}		
 		
 		return problem;
-		
-	}
-	
-public ArrayList<String> BP02 () {
-		
-		ArrayList<String> problem = new ArrayList<String>();
-		
-		for (EClassifier classifier : metamodelo.getEClassifiers()) {
-			Boolean uninstantiable = true;
-			if (classifier instanceof EClass) {
-			     if (((EClass) classifier).isAbstract()) {
-			    	 for (EClassifier classifier2 : metamodelo.getEClassifiers()) {
-			    	 	if (((EClass) classifier).isSuperTypeOf((EClass) classifier2) && !classifier2.equals(classifier)) {
-			    	 		uninstantiable = false;
-			    	 	}
-			    	 			    	 		
-			    	 }
-			    	 if (uninstantiable == true)
-						   problem.add("La clase " +classifier.getName() +
-								   "(" +classifier.getClassifierID()  +")" + " es abstracta sin hijos");
-			     } 
-			}
-			
-		}		
-		
-		return problem;
-		
 	}
 
 }
