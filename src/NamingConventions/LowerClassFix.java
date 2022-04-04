@@ -1,21 +1,31 @@
 package NamingConventions;
 
+import java.io.IOException;
+
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.resource.Resource;
 
 import QuickFixes.IQuickfix;
 
 public class LowerClassFix implements IQuickfix {
 	
 	EClassifier classifier;
+	EPackage metamodelo;
 	
-	public LowerClassFix (EClassifier classifier) {
+	public LowerClassFix (EPackage metamodelo, EClassifier classifier) {
 		this.classifier = classifier;
+		this.metamodelo = metamodelo;
 	}
 
 	@Override
 	public void execute() {
 		this.classifier.setName(upperCaseFirst(classifier.getName()));
-		System.out.println(classifier);
+		try {
+			metamodelo.eResource().save(null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

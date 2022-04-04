@@ -41,7 +41,7 @@ public class N02 implements ICriterion {
 			    		  Problem problem = new Problem();
 			    		  problem.setDescription("El atributo " + attribute.getName() + "." + classifier.getName() 
 			              + " puede ser una potencial asociación");
-			    		  IQuickfix fix = new LowerClassFix(classifier);
+			    		  IQuickfix fix = new N02Fix(metamodelo,classifier);
 						  problem.addQuickfix(fix);
 						  problems.add(problem);
 			    	  }

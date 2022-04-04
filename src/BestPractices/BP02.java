@@ -47,9 +47,9 @@ public class BP02 implements ICriterion {
 			    		 Problem problem = new Problem();
 			    		 problem.setDescription("La clase " +classifier.getName() +
 								   "(" +classifier.getClassifierID()  +")" + " es abstracta sin hijos");
-			    		 IQuickfix fix = new LowerClassFix(classifier);
-							problem.addQuickfix(fix);
-							problems.add(problem);
+			    		 IQuickfix fix = new BP01Fix(metamodelo,classifier);
+						 problem.addQuickfix(fix);
+						 problems.add(problem);
 			    	 }
 						   
 			     } 

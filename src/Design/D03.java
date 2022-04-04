@@ -43,7 +43,7 @@ public class D03 implements ICriterion {
 				if((((EClass) classifier).getESuperTypes()).size() == 1) {
 					Problem problem = new Problem();
 					problem.setDescription("La clase " + (((EClass) classifier).getESuperTypes()).get(0).getName() + " es abstracta con un solo hijo");	
-					IQuickfix fix = new LowerClassFix(classifier);
+					IQuickfix fix = new D03Fix(metamodelo,classifier);
 					problem.addQuickfix(fix);
 					problems.add(problem);
 				}

@@ -341,7 +341,7 @@ public class ProblemsView extends ViewPart {
 			        				}
 			        			};
 			        			action1.setText(quickfix.getDescription());
-			        			action1.setToolTipText(quickfix.getDescription());
+			        			//action1.setToolTipText(quickfix.getDescription());
 			        			action1.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
 			        				getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
 			        			manager.add(action1);

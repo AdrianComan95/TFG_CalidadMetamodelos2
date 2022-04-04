@@ -1,15 +1,18 @@
 package BestPractices;
 
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EPackage;
 
 import QuickFixes.IQuickfix;
 
 public class BP02Fix implements IQuickfix {
 	
-	EClassifier classifier;
+	private EClassifier classifier;
+	private EPackage metamodelo;
 	
-	public BP02Fix (EClassifier classifier) {
+	public BP02Fix (EPackage metamodelo, EClassifier classifier) {
 		this.classifier = classifier;
+		this.metamodelo = metamodelo;
 	}
 
 	@Override

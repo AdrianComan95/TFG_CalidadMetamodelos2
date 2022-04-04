@@ -1,17 +1,19 @@
 package Design;
 
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EPackage;
 
 import QuickFixes.IQuickfix;
 
 public class D03Fix implements IQuickfix {
 	
-	EClassifier classifier;
+	private EClassifier classifier;
+	private EPackage metamodelo;
 	
-	public D03Fix (EClassifier classifier) {
+	public D03Fix (EPackage metamodelo, EClassifier classifier) {
 		this.classifier = classifier;
+		this.metamodelo = metamodelo;
 	}
-
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub

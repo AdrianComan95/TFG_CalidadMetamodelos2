@@ -66,7 +66,7 @@ public class BP01 implements ICriterion {
 				problem.setDescription("La clase " + classifier.getName() + 
 						"(" +classifier.getClassifierID()  +")" + " hereda de " 
 						+ classproblem.getName() + " por mas de un camino");
-				IQuickfix fix = new LowerClassFix(classifier);
+				IQuickfix fix = new BP01Fix(metamodelo,classifier);
 				problem.addQuickfix(fix);
 				problems.add(problem);
 			}			

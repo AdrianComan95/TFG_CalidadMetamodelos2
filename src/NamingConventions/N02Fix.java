@@ -1,17 +1,19 @@
 package NamingConventions;
 
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EPackage;
 
 import QuickFixes.IQuickfix;
 
 public class N02Fix implements IQuickfix {
 	
-	EClassifier classifier;
+	private EClassifier classifier;
+	private EPackage metamodelo;
 	
-	public N02Fix (EClassifier classifier) {
+	public N02Fix (EPackage metamodelo, EClassifier classifier) {
 		this.classifier = classifier;
+		this.metamodelo = metamodelo;
 	}
-
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub

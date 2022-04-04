@@ -37,7 +37,7 @@ public class LowerClass implements ICriterion  {
 			if(primeraLetra.equals(primeraLetra.toLowerCase())) {
 				Problem problem = new Problem();
 				problem.setDescription("La clase '" + classifier.getName() + "' no empieza con mayúscula");
-				IQuickfix fix = new LowerClassFix(classifier);
+				IQuickfix fix = new LowerClassFix(metamodelo,classifier);
 				problem.addQuickfix(fix);
 				problems.add(problem);
 			}
