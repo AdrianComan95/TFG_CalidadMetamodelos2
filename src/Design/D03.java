@@ -8,9 +8,12 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 
-import plugin_validar.views.IProblem;
+import NamingConventions.LowerClassFix;
+import QuickFixes.IQuickfix;
+import plugin_validar.views.ICriterion;
+import plugin_validar.views.Problem;
 
-public class D03 implements IProblem {
+public class D03 implements ICriterion {
 	
 	EPackage metamodelo;
 	
@@ -29,21 +32,26 @@ public class D03 implements IProblem {
 	public ProblemType getProblemType() { return ProblemType.DESIGN; }
 
 	@Override
-	public List<String> check() {
-		ArrayList<String> problem = new ArrayList<String>();
+	public List<Problem> check() {
+		
+		List<Problem> problems = new ArrayList<Problem>();
 		
 		EList<EClassifier> classifiers = metamodelo.getEClassifiers();
 		
 		for (EClassifier classifier : classifiers) {
 			if (classifier instanceof EClass) {
 				if((((EClass) classifier).getESuperTypes()).size() == 1) {
-					   problem.add("La clase " + (((EClass) classifier).getESuperTypes()).get(0).getName() + " es abstracta con un solo hijo");		
+					Problem problem = new Problem();
+					problem.setDescription("La clase " + (((EClass) classifier).getESuperTypes()).get(0).getName() + " es abstracta con un solo hijo");	
+					IQuickfix fix = new LowerClassFix(classifier);
+					problem.addQuickfix(fix);
+					problems.add(problem);
 				}
 			}
 			
 		}		
 		
-		return problem;
+		return problems;
 	}
 
 }

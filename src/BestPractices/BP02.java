@@ -6,9 +6,12 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 
-import plugin_validar.views.IProblem;
+import NamingConventions.LowerClassFix;
+import QuickFixes.IQuickfix;
+import plugin_validar.views.ICriterion;
+import plugin_validar.views.Problem;
 
-public class BP02 implements IProblem {
+public class BP02 implements ICriterion {
 	
 	EPackage metamodelo;
 	
@@ -27,8 +30,8 @@ public class BP02 implements IProblem {
 	public ProblemType getProblemType() { return ProblemType.BEST_PRACTICE; }
 	
 	@Override
-	public List<String> check() {
-		List<String> problem = new ArrayList<String>();
+	public List<Problem> check() {
+		List<Problem> problems = new ArrayList<Problem>();
 		
 		for (EClassifier classifier : metamodelo.getEClassifiers()) {
 			Boolean uninstantiable = true;
@@ -40,15 +43,21 @@ public class BP02 implements IProblem {
 			    	 	}
 			    	 			    	 		
 			    	 }
-			    	 if (uninstantiable == true)
-						   problem.add("La clase " +classifier.getName() +
+			    	 if (uninstantiable == true) {
+			    		 Problem problem = new Problem();
+			    		 problem.setDescription("La clase " +classifier.getName() +
 								   "(" +classifier.getClassifierID()  +")" + " es abstracta sin hijos");
+			    		 IQuickfix fix = new LowerClassFix(classifier);
+							problem.addQuickfix(fix);
+							problems.add(problem);
+			    	 }
+						   
 			     } 
 			}
 			
 		}		
 		
-		return problem;
+		return problems;
 	}
 	
 }

@@ -10,6 +10,7 @@ import org.eclipse.ui.part.*;
 import BestPractices.*;
 import Design.*;
 import NamingConventions.*;
+import QuickFixes.IQuickfix;
 
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.graphics.Image;
@@ -23,8 +24,8 @@ import org.eclipse.emf.ecore.EPackage;
 
 import javax.inject.Inject;
 
-import plugin_validar.views.IProblem;
-import plugin_validar.views.IProblem.ProblemType;
+import plugin_validar.views.ICriterion;
+import plugin_validar.views.ICriterion.ProblemType;
 
 
 /**
@@ -62,13 +63,30 @@ public class ProblemsView extends ViewPart {
 	 
 	class TreeObject implements IAdaptable {
 		private String name;
+		private Problem problem = null;
 		private TreeParent parent;
+		
+		public TreeObject(Problem problem) {
+			this.problem = problem;
+		}
 		
 		public TreeObject(String name) {
 			this.name = name;
 		}
 		public String getName() {
-			return name;
+			if (problem != null)
+				return problem.getDescription();
+			else 
+				return name;
+		}
+		public Problem getProblem() {
+			return problem;
+		}
+		public List<IQuickfix> getFixes() {
+			if(problem != null) {
+				return problem.getQuickfixes();
+			}
+			return null;
 		}
 		public void setParent(TreeParent parent) {
 			this.parent = parent;
@@ -88,6 +106,10 @@ public class ProblemsView extends ViewPart {
 	
 	class TreeParent extends TreeObject {
 		private ArrayList children;
+		public TreeParent(Problem problem) {
+			super(problem);
+			children = new ArrayList();
+		}
 		public TreeParent(String name) {
 			super(name);
 			children = new ArrayList();
@@ -106,6 +128,7 @@ public class ProblemsView extends ViewPart {
 		public boolean hasChildren() {
 			return children.size()>0;
 		}
+		
 	}
 
 	class ViewContentProvider implements ITreeContentProvider {
@@ -149,60 +172,60 @@ public class ProblemsView extends ViewPart {
 			
 			//---DISEÑO
 			
-			List<IProblem> problems = List.of(new D03(metamodel), new BP01(metamodel),
+			List<ICriterion> problems = List.of(new D03(metamodel), new BP01(metamodel),
 					new BP02(metamodel), new LowerClass(metamodel), new N01(metamodel),
 					new N02(metamodel));
 			TreeParent createParentDesign = null;
 			TreeParent createParentBestPractice = null;
 			TreeParent createParentNamingConvection = null;
 			TreeParent createParentMetric = null;
-			for (IProblem p : problems) {
-				List<String>  detectedErrors = p.check();
-				if (p.getProblemType() == ProblemType.DESIGN && detectedErrors.size() > 0) {
+			for (ICriterion p : problems) {
+				List<Problem>  detectedProblems = p.check();
+				if (p.getProblemType() == ProblemType.DESIGN && detectedProblems.size() > 0) {
 					if (createParentDesign == null) {
 						createParentDesign = new TreeParent("Diseño");
 						root.addChild(createParentDesign);
 					}
 					TreeParent child = new TreeParent(p.getTitle());
-					for (String error : detectedErrors) {
-						TreeObject problem = new TreeObject(error);
-						child.addChild(problem);
+					for (Problem problem : detectedProblems) {
+						TreeObject problemTreeObject = new TreeObject(problem);
+						child.addChild(problemTreeObject);
 					}
 					createParentDesign.addChild(child);	
 				}
-				if (p.getProblemType() == ProblemType.BEST_PRACTICE && detectedErrors.size() > 0) {
+				if (p.getProblemType() == ProblemType.BEST_PRACTICE && detectedProblems.size() > 0) {
 					if (createParentBestPractice == null) {
 						createParentBestPractice = new TreeParent("Buenas Practicas");
 						root.addChild(createParentBestPractice);
 					}
 					TreeParent child = new TreeParent(p.getTitle());
-					for (String error : detectedErrors) {
-						TreeObject problem = new TreeObject(error);
-						child.addChild(problem);
+					for (Problem problem : detectedProblems) {
+						TreeObject problemTreeObject = new TreeObject(problem);
+						child.addChild(problemTreeObject);
 					}
 					createParentBestPractice.addChild(child);
 				}
-				if (p.getProblemType() == ProblemType.NAMING_CONVENTION && detectedErrors.size() > 0) {
+				if (p.getProblemType() == ProblemType.NAMING_CONVENTION && detectedProblems.size() > 0) {
 					if (createParentNamingConvection == null) {
 						createParentNamingConvection = new TreeParent("Convención de nombres");
 						root.addChild(createParentNamingConvection);
 					}
 					TreeParent child = new TreeParent(p.getTitle());
-					for (String error : detectedErrors) {
-						TreeObject problem = new TreeObject(error);
-						child.addChild(problem);
+					for (Problem problem : detectedProblems) {
+						TreeObject problemTreeObject = new TreeObject(problem);
+						child.addChild(problemTreeObject);
 					}
 					createParentNamingConvection.addChild(child);
 				}
-				if (p.getProblemType() == ProblemType.METRIC && detectedErrors.size() > 0) {
+				if (p.getProblemType() == ProblemType.METRIC && detectedProblems.size() > 0) {
 					if (createParentMetric == null) {
 						createParentMetric = new TreeParent("Metrica");
 						root.addChild(createParentMetric);
 					}
 					TreeParent child = new TreeParent(p.getTitle());
-					for (String error : detectedErrors) {
-						TreeObject problem = new TreeObject(error);
-						child.addChild(problem);
+					for (Problem problem : detectedProblems) {
+						TreeObject problemTreeObject = new TreeObject(problem);
+						child.addChild(problemTreeObject);
 					}
 					createParentMetric.addChild(child);
 				}
@@ -287,7 +310,7 @@ public class ProblemsView extends ViewPart {
 		contributeToActionBars();
 	}
 
-	private void hookContextMenu() {
+	/*private void hookContextMenu() {
 		MenuManager menuMgr = new MenuManager("#PopupMenu");
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
@@ -298,7 +321,41 @@ public class ProblemsView extends ViewPart {
 		Menu menu = menuMgr.createContextMenu(viewer.getControl());
 		viewer.getControl().setMenu(menu);
 		getSite().registerContextMenu(menuMgr, viewer);
-	}
+	}*/
+	
+	private void hookContextMenu() {
+		MenuManager menuMgr = new MenuManager("#PopupMenu");
+		menuMgr.setRemoveAllWhenShown(true);
+		menuMgr.addMenuListener(new IMenuListener() {
+			public void menuAboutToShow(IMenuManager manager) {
+			      ISelection selection = viewer.getSelection();
+			      if (selection instanceof TreeSelection &&
+			        ((TreeSelection)selection).getFirstElement() instanceof TreeObject) {
+			          TreeObject obj = (TreeObject)((TreeSelection)selection).getFirstElement();
+			          List<IQuickfix> quickfixes = obj.getFixes();
+			          if (quickfixes != null) {
+			        	  for (IQuickfix quickfix : quickfixes) {
+			        		  action1 = new Action() {
+			        				public void run() {
+			        					quickfix.execute();
+			        				}
+			        			};
+			        			action1.setText(quickfix.getDescription());
+			        			action1.setToolTipText(quickfix.getDescription());
+			        			action1.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
+			        				getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
+			        			manager.add(action1);
+			        			
+			        	  }
+			          }
+			      }
+			}
+	    });
+	    Menu menu = menuMgr.createContextMenu(viewer.getControl());
+	    viewer.getControl().setMenu(menu);
+	    getSite().registerContextMenu(menuMgr, viewer);
+		}
+	
 
 	private void contributeToActionBars() {
 		IActionBars bars = getViewSite().getActionBars();

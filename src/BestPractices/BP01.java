@@ -6,9 +6,12 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 
-import plugin_validar.views.IProblem;
+import NamingConventions.LowerClassFix;
+import QuickFixes.IQuickfix;
+import plugin_validar.views.ICriterion;
+import plugin_validar.views.Problem;
 
-public class BP01 implements IProblem {
+public class BP01 implements ICriterion {
 	
 	EPackage metamodelo;
 	
@@ -49,8 +52,8 @@ public class BP01 implements IProblem {
     }
 	
 	@Override
-	public List<String> check() {
-		List<String> problem = new ArrayList<String>();
+	public List<Problem> check() {
+		List<Problem> problems = new ArrayList<Problem>();
 		
 		for (EClassifier classifier : metamodelo.getEClassifiers()) {
 			ArrayList<EClass> parents = new ArrayList<EClass>();
@@ -59,14 +62,18 @@ public class BP01 implements IProblem {
 			}
 			EClass classproblem = diamondProblem(parents);
 			if (classproblem != null) {
-				problem.add("La clase " + classifier.getName() + 
+				Problem problem = new Problem();
+				problem.setDescription("La clase " + classifier.getName() + 
 						"(" +classifier.getClassifierID()  +")" + " hereda de " 
 						+ classproblem.getName() + " por mas de un camino");
+				IQuickfix fix = new LowerClassFix(classifier);
+				problem.addQuickfix(fix);
+				problems.add(problem);
 			}			
 			
 		}		
 		
-		return problem;
+		return problems;
 	}
 
 }

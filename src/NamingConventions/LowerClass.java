@@ -6,9 +6,11 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 
-import plugin_validar.views.IProblem;
+import QuickFixes.IQuickfix;
+import plugin_validar.views.ICriterion;
+import plugin_validar.views.Problem;
 
-public class LowerClass implements IProblem  {
+public class LowerClass implements ICriterion  {
 	
 	EPackage metamodelo;
 	
@@ -26,13 +28,20 @@ public class LowerClass implements IProblem  {
 	public ProblemType getProblemType() { return ProblemType.NAMING_CONVENTION; }
 	
 	@Override
-	public List<String> check() {
-		List<String> problems = new ArrayList<String>();
+	public List<Problem> check() {	
+		
+		List<Problem> problems = new ArrayList<Problem>();
 		
 		for (EClassifier classifier : metamodelo.getEClassifiers()) {
 			String primeraLetra = classifier.getName().substring(0, 1);
-			if(primeraLetra.equals(primeraLetra.toLowerCase()))
-				problems.add("La clase '" + classifier.getName() + "' no empieza con mayúscula");
+			if(primeraLetra.equals(primeraLetra.toLowerCase())) {
+				Problem problem = new Problem();
+				problem.setDescription("La clase '" + classifier.getName() + "' no empieza con mayúscula");
+				IQuickfix fix = new LowerClassFix(classifier);
+				problem.addQuickfix(fix);
+				problems.add(problem);
+			}
+				
 		}		
 		
 		return problems;
