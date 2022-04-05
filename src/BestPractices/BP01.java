@@ -54,7 +54,6 @@ public class BP01 implements ICriterion {
 	@Override
 	public List<Problem> check() {
 		List<Problem> problems = new ArrayList<Problem>();
-		
 		for (EClassifier classifier : metamodelo.getEClassifiers()) {
 			ArrayList<EClass> parents = new ArrayList<EClass>();
 			if (classifier instanceof EClass) {

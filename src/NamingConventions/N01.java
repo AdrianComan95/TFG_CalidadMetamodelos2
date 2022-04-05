@@ -40,7 +40,7 @@ public class N01 implements ICriterion {
 			    		  Problem problem = new Problem();
 			    		  problem.setDescription("El atributo " + attribute.getName() + "." + classifier.getName() 
 			              + " tiene el mismo nombre que su clase entidad");
-			    		  IQuickfix fix = new N01Fix(metamodelo,classifier);
+			    		  IQuickfix fix = new N01Fix(metamodelo,classifier, attribute);
 						  problem.addQuickfix(fix);
 						  problems.add(problem);
 			    	  }

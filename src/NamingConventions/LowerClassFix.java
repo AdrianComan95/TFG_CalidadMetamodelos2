@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.resource.Resource;
 
 import QuickFixes.IQuickfix;
 
