@@ -7,8 +7,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 
-import QuickFixes.IQuickfix;
-import plugin_validar.views.ICriterion;
+import Interfaces.ICriterion;
+import Interfaces.IQuickfix;
 import plugin_validar.views.Problem;
 
 public class N01 implements ICriterion {

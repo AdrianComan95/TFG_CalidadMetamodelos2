@@ -1,4 +1,4 @@
-package QuickFixes;
+package Interfaces;
 
 public interface IQuickfix {
 	public void execute();

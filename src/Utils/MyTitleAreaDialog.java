@@ -1,4 +1,4 @@
-package NamingConventions;
+package Utils;
 
 
 import org.eclipse.jface.dialogs.IMessageProvider;

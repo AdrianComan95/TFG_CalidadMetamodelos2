@@ -8,8 +8,8 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.widgets.Shell;
 
-
-import QuickFixes.IQuickfix;
+import Interfaces.IQuickfix;
+import Utils.MyTitleAreaDialog;
 
 public class N01Fix implements IQuickfix {
 	

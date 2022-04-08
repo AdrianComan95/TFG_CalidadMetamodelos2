@@ -1,9 +1,13 @@
 package BestPractices;
 
+import java.io.IOException;
+
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import QuickFixes.IQuickfix;
+import Interfaces.IQuickfix;
 
 public class BP02Fix implements IQuickfix {
 	
@@ -17,14 +21,16 @@ public class BP02Fix implements IQuickfix {
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-		
+		EcoreUtil.delete((((EClass) classifier).getESuperTypes()).get(0));
+		try {
+			metamodelo.eResource().save(null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Borrar  la clase " + classifier.getName();
 	}
-
 }

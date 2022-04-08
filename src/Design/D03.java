@@ -8,9 +8,10 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 
+import BestPractices.BP01Fix;
+import Interfaces.ICriterion;
+import Interfaces.IQuickfix;
 import NamingConventions.LowerClassFix;
-import QuickFixes.IQuickfix;
-import plugin_validar.views.ICriterion;
 import plugin_validar.views.Problem;
 
 public class D03 implements ICriterion {
@@ -39,17 +40,30 @@ public class D03 implements ICriterion {
 		EList<EClassifier> classifiers = metamodelo.getEClassifiers();
 		
 		for (EClassifier classifier : classifiers) {
+			Integer childrens = 0;
+			EClass children = null;
 			if (classifier instanceof EClass) {
-				if((((EClass) classifier).getESuperTypes()).size() == 1) {
-					Problem problem = new Problem();
-					problem.setDescription("La clase " + (((EClass) classifier).getESuperTypes()).get(0).getName() + " es abstracta con un solo hijo");	
-					IQuickfix fix = new D03Fix(metamodelo,classifier);
-					problem.addQuickfix(fix);
-					problems.add(problem);
-				}
+			     if (((EClass) classifier).isAbstract()) {
+			    	 for (EClassifier classifier2 : classifiers) {
+			    	 	if (((EClass) classifier).isSuperTypeOf((EClass) classifier2) && !classifier2.equals(classifier)) {
+			    	 		childrens++;
+			    	 		children = (EClass) classifier2;
+			    	 	}
+			    	 			    	 		
+			    	 }
+			    	 if (childrens == 1) {
+			    		 Problem problem = new Problem();
+			    		 problem.setDescription("La clase " +classifier.getName() +
+								   "(" +classifier.getClassifierID()  +")" + " es abstracta con un solo hijo (" +children.getName() + ")");
+			    		 IQuickfix fix = new D03Fix(metamodelo,classifier,children);
+						 problem.addQuickfix(fix);
+						 problems.add(problem);
+			    	 }
+						   
+			     } 
 			}
 			
-		}		
+		}			
 		
 		return problems;
 	}

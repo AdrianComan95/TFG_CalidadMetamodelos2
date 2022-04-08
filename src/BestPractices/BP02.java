@@ -6,9 +6,9 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 
+import Interfaces.ICriterion;
+import Interfaces.IQuickfix;
 import NamingConventions.LowerClassFix;
-import QuickFixes.IQuickfix;
-import plugin_validar.views.ICriterion;
 import plugin_validar.views.Problem;
 
 public class BP02 implements ICriterion {
@@ -47,7 +47,7 @@ public class BP02 implements ICriterion {
 			    		 Problem problem = new Problem();
 			    		 problem.setDescription("La clase " +classifier.getName() +
 								   "(" +classifier.getClassifierID()  +")" + " es abstracta sin hijos");
-			    		 IQuickfix fix = new BP01Fix(metamodelo,classifier);
+			    		 IQuickfix fix = new BP02Fix(metamodelo,classifier);
 						 problem.addQuickfix(fix);
 						 problems.add(problem);
 			    	 }

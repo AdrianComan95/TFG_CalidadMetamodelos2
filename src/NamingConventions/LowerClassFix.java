@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 
-import QuickFixes.IQuickfix;
+import Interfaces.IQuickfix;
 
 public class LowerClassFix implements IQuickfix {
 	

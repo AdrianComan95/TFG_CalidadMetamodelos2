@@ -9,8 +9,10 @@ import org.eclipse.ui.part.*;
 
 import BestPractices.*;
 import Design.*;
+import Interfaces.ICriterion;
+import Interfaces.IQuickfix;
+import Interfaces.ICriterion.ProblemType;
 import NamingConventions.*;
-import QuickFixes.IQuickfix;
 
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.graphics.Image;
@@ -23,9 +25,6 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EPackage;
 
 import javax.inject.Inject;
-
-import plugin_validar.views.ICriterion;
-import plugin_validar.views.ICriterion.ProblemType;
 
 
 /**

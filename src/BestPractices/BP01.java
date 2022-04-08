@@ -6,9 +6,9 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 
+import Interfaces.ICriterion;
+import Interfaces.IQuickfix;
 import NamingConventions.LowerClassFix;
-import QuickFixes.IQuickfix;
-import plugin_validar.views.ICriterion;
 import plugin_validar.views.Problem;
 
 public class BP01 implements ICriterion {

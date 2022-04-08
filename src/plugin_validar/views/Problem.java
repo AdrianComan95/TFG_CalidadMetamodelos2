@@ -3,7 +3,7 @@ package plugin_validar.views;
 import java.util.ArrayList;
 import java.util.List;
 
-import QuickFixes.IQuickfix;
+import Interfaces.IQuickfix;
 
 public class Problem {
 	
