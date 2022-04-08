@@ -12,18 +12,18 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-public class MyTitleAreaDialog extends TitleAreaDialog {
+public class AreaDialogN01Fix extends TitleAreaDialog {
 
     private Text txtNewName;
 
     private String oldName;
     private String newName;
 
-    public MyTitleAreaDialog(Shell parentShell) {
+    public AreaDialogN01Fix(Shell parentShell) {
         super(parentShell);
     }
     
-    public MyTitleAreaDialog(Shell parentShell, String oldName) {
+    public AreaDialogN01Fix(Shell parentShell, String oldName) {
         super(parentShell);
         this.oldName = oldName;
     }

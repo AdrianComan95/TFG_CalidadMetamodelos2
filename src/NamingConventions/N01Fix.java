@@ -9,7 +9,7 @@ import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.widgets.Shell;
 
 import Interfaces.IQuickfix;
-import Utils.MyTitleAreaDialog;
+import Utils.AreaDialogN01Fix;
 
 public class N01Fix implements IQuickfix {
 	
@@ -25,7 +25,7 @@ public class N01Fix implements IQuickfix {
 
 	@Override
 	public void execute() {
-		MyTitleAreaDialog dialog = new MyTitleAreaDialog(Shell.internal_new(null, 0), attribute.getName());
+		AreaDialogN01Fix dialog = new AreaDialogN01Fix(Shell.internal_new(null, 0), attribute.getName());
 		dialog.open();
 		String newName = dialog.getNewName();
 		if (!newName.isEmpty()) {
