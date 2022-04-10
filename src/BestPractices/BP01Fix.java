@@ -1,5 +1,8 @@
 package BestPractices;
 
+import java.io.IOException;
+
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -9,22 +12,27 @@ public class BP01Fix implements IQuickfix {
 	
 	private EClassifier classifier;
 	private EPackage metamodelo;
+	private EClass parent;
 	
-	public BP01Fix (EPackage metamodelo, EClassifier classifier) {
+	public BP01Fix (EPackage metamodelo, EClassifier classifier, EClass parent) {
 		this.classifier = classifier;
 		this.metamodelo = metamodelo;
+		this.parent = parent;
 	}
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-		
+		System.out.println(((EClass)classifier).getESuperTypes().remove(parent));
+		try {
+			metamodelo.eResource().save(null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Eliminar la relación de SuperType de " +classifier.getName() + " con " + parent.getName() ;
 	}
 
 }

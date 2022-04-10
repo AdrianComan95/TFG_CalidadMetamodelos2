@@ -2,6 +2,7 @@ package BestPractices;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
@@ -65,8 +66,25 @@ public class BP01 implements ICriterion {
 				problem.setDescription("La clase " + classifier.getName() + 
 						"(" +classifier.getClassifierID()  +")" + " hereda de " 
 						+ classproblem.getName() + " por mas de un camino");
-				IQuickfix fix = new BP01Fix(metamodelo,classifier);
-				problem.addQuickfix(fix);
+				List<EClass> classParents = ((EClass)classifier).getESuperTypes();
+				//BUSCAMOS LOS 2 PADRES QUE GENERAN EL PROBLEMA
+				EClass parent1 = null;
+				EClass parent2 = null;
+				for (EClass parent : classParents) {
+					ArrayList<EClass> parentsAll = parentsR(parent);
+					if (parentsAll.contains(classproblem)) {
+						if (parent1 == null) {
+							parent1 = parent;
+						}
+						else if(parent2 == null) {
+							parent2 = parent;
+						}
+					}
+				}
+				IQuickfix fix1 = new BP01Fix(metamodelo,classifier, parent1);
+				IQuickfix fix2 = new BP01Fix(metamodelo,classifier, parent2);
+				problem.addQuickfix(fix1);
+				problem.addQuickfix(fix2);
 				problems.add(problem);
 			}			
 			
