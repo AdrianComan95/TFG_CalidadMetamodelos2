@@ -28,7 +28,7 @@ public class N01Fix implements IQuickfix {
 		AreaDialogN01Fix dialog = new AreaDialogN01Fix(Shell.internal_new(null, 0), attribute.getName());
 		dialog.open();
 		String newName = dialog.getNewName();
-		if (!newName.isEmpty()) {
+		if (newName == null || !newName.isEmpty()) {
 			attribute.setName(newName);
 			try {
 				metamodelo.eResource().save(null);

@@ -173,7 +173,7 @@ public class ProblemsView extends ViewPart {
 			
 			List<ICriterion> problems = List.of(new D03(metamodel), new BP01(metamodel),
 					new BP02(metamodel), new LowerClass(metamodel), new N01(metamodel),
-					new N02(metamodel));
+					new N02(metamodel), new D01(metamodel));
 			TreeParent createParentDesign = null;
 			TreeParent createParentBestPractice = null;
 			TreeParent createParentNamingConvection = null;
