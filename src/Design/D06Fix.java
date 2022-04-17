@@ -2,26 +2,28 @@ package Design;
 
 import java.io.IOException;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.EReference;
 
 import Interfaces.IQuickfix;
 
-public class D03Fix implements IQuickfix {
+public class D06Fix implements IQuickfix {
 	
 	private EClassifier classifier;
 	private EPackage metamodelo;
+	private EReference reference;
 	
-	public D03Fix (EPackage metamodelo, EClassifier classifier, EClassifier children) {
+	public D06Fix (EPackage metamodelo, EClassifier classifier, EReference reference) {
 		this.classifier = classifier;
 		this.metamodelo = metamodelo;
+		this.reference = reference;
 	}
 	@Override
 	public void execute() {
-		//TODO ¿¿Añadir todos los atributos a children y borrar clase abstracta??
+		((EClass)classifier).getEAllReferences().remove(reference);
 		
-		EcoreUtil.delete(classifier);
 		try {
 			metamodelo.eResource().save(null);
 		} catch (IOException e) {
@@ -31,7 +33,8 @@ public class D03Fix implements IQuickfix {
 
 	@Override
 	public String getDescription() {
-		return "Borrar  la clase " + classifier.getName();
+		return "Borrar  la referencia a " + reference.getEReferenceType().getName() + " en la clase "
+				+ classifier.getName();
 	}
 
 }

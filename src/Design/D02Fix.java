@@ -8,19 +8,17 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import Interfaces.IQuickfix;
 
-public class D03Fix implements IQuickfix {
+public class D02Fix implements IQuickfix {
 	
 	private EClassifier classifier;
 	private EPackage metamodelo;
 	
-	public D03Fix (EPackage metamodelo, EClassifier classifier, EClassifier children) {
+	public D02Fix (EPackage metamodelo, EClassifier classifier) {
 		this.classifier = classifier;
 		this.metamodelo = metamodelo;
 	}
 	@Override
 	public void execute() {
-		//TODO ¿¿Añadir todos los atributos a children y borrar clase abstracta??
-		
 		EcoreUtil.delete(classifier);
 		try {
 			metamodelo.eResource().save(null);
@@ -35,3 +33,4 @@ public class D03Fix implements IQuickfix {
 	}
 
 }
+
