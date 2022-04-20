@@ -2,7 +2,6 @@ package plugin_validar.views;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.*;
@@ -18,32 +17,16 @@ import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.jface.action.*;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.*;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.SWT;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EPackage;
 
 import javax.inject.Inject;
-
-
-/**
- * This sample class demonstrates how to plug-in a new
- * workbench view. The view shows data obtained from the
- * model. The sample creates a dummy model on the fly,
- * but a real implementation would connect to the model
- * available either in this or another plug-in (e.g. the workspace).
- * The view is connected to the model using a content provider.
- * <p>
- * The view uses a label provider to define how model
- * objects should be presented in the view. Each
- * view can present the same model objects using
- * different labels and icons, if needed. Alternatively,
- * a single label provider can be shared between views
- * in order to ensure that objects of the same type are
- * presented in the same way everywhere.
- * <p>
- */
 
 public class ProblemsView extends ViewPart {
 
@@ -57,8 +40,7 @@ public class ProblemsView extends ViewPart {
 	private TreeViewer viewer;
 	private DrillDownAdapter drillDownAdapter;
 	private Action action1;
-	private Action action2;
-	private Action doubleClickAction;
+	private EPackage metamodel;
 	 
 	class TreeObject implements IAdaptable {
 		private String name;
@@ -243,24 +225,12 @@ public class ProblemsView extends ViewPart {
 		}
 		///////////////
 		private void initialize() {
-			TreeObject to1 = new TreeObject("Leaf 1");
-			TreeObject to2 = new TreeObject("Leaf 2");
-			TreeObject to3 = new TreeObject("Leaf 3");
-			TreeParent p1 = new TreeParent("Parent 1");
-			p1.addChild(to1);
-			p1.addChild(to2);
-			p1.addChild(to3);
-			
-			TreeObject to4 = new TreeObject("Leaf 4");
-			TreeParent p2 = new TreeParent("Parent 2");
-			p2.addChild(to4);
-			
-			TreeParent root = new TreeParent("Root");
-			root.addChild(p1);
-			root.addChild(p2);
+			TreeObject to1 = new TreeObject("No tiene ningun metamodelo seleccionado");
+			TreeObject to2 = new TreeObject("Click derecho sobre un metamodelo y seleccione 'Validar Metadelo'");
 			
 			invisibleRoot = new TreeParent("");
-			invisibleRoot.addChild(root);
+			invisibleRoot.addChild(to1);
+			invisibleRoot.addChild(to2);
 		}
 	}
 
@@ -285,6 +255,7 @@ public class ProblemsView extends ViewPart {
 //	}
 	
 	public void update (EPackage metamodel) {
+		this.metamodel = metamodel;
 		ViewContentProvider provider = (ViewContentProvider)viewer.getContentProvider();
 	    provider.update(metamodel);
 	    viewer.refresh();
@@ -305,7 +276,6 @@ public class ProblemsView extends ViewPart {
 		getSite().setSelectionProvider(viewer);
 		makeActions();
 		hookContextMenu();
-		hookDoubleClickAction();
 		contributeToActionBars();
 	}
 
@@ -337,6 +307,7 @@ public class ProblemsView extends ViewPart {
 			        		  action1 = new Action() {
 			        				public void run() {
 			        					quickfix.execute();
+			        					update(metamodel);
 			        				}
 			        			};
 			        			action1.setText(quickfix.getDescription());
@@ -364,13 +335,10 @@ public class ProblemsView extends ViewPart {
 
 	private void fillLocalPullDown(IMenuManager manager) {
 		manager.add(action1);
-		manager.add(new Separator());
-		manager.add(action2);
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
 		manager.add(action1);
-		manager.add(action2);
 		manager.add(new Separator());
 		drillDownAdapter.addNavigationActions(manager);
 		// Other plug-ins can contribute there actions here
@@ -379,7 +347,6 @@ public class ProblemsView extends ViewPart {
 	
 	private void fillLocalToolBar(IToolBarManager manager) {
 		manager.add(action1);
-		manager.add(action2);
 		manager.add(new Separator());
 		drillDownAdapter.addNavigationActions(manager);
 	}
@@ -387,15 +354,18 @@ public class ProblemsView extends ViewPart {
 	private void makeActions() {
 		action1 = new Action() {
 			public void run() {
-				showMessage("Action 1 executed");
+				if (metamodel != null) {
+					update(metamodel);
+				}
+				
 			}
 		};
-		action1.setText("Action 1");
-		action1.setToolTipText("Action 1 tooltip");
+		action1.setText("Refresh");
+		action1.setToolTipText("Refresh");
 		action1.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-			getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
+			getImageDescriptor(ISharedImages.IMG_TOOL_UNDO));
 		
-		action2 = new Action() {
+		/*action2 = new Action() {
 			public void run() {
 				showMessage("Action 2 executed");
 			}
@@ -403,27 +373,27 @@ public class ProblemsView extends ViewPart {
 		action2.setText("Action 2");
 		action2.setToolTipText("Action 2 tooltip");
 		action2.setImageDescriptor(workbench.getSharedImages().
-				getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
+				getImageDescriptor(ISharedImages.IMG_TOOL_UNDO));
 		doubleClickAction = new Action() {
 			public void run() {
 				IStructuredSelection selection = viewer.getStructuredSelection();
 				Object obj = selection.getFirstElement();
 				showMessage("Double-click detected on "+obj.toString());
 			}
-		};
+		};*/
 	}
 
-	private void hookDoubleClickAction() {
+	/*private void hookDoubleClickAction() {
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
 			public void doubleClick(DoubleClickEvent event) {
 				doubleClickAction.run();
 			}
 		});
-	}
+	}*/
 	private void showMessage(String message) {
 		MessageDialog.openInformation(
 			viewer.getControl().getShell(),
-			"Criterio Calidad",
+			"Criterios de Calidad EMF",
 			message);
 	}
 

@@ -12,6 +12,8 @@ import BestPractices.BP01Fix;
 import Interfaces.ICriterion;
 import Interfaces.IQuickfix;
 import NamingConventions.LowerClassFix;
+import Utils.ChangeClassToConcreteFix;
+import Utils.CreateSubclassFix;
 import plugin_validar.views.Problem;
 
 public class D03 implements ICriterion {
@@ -55,8 +57,12 @@ public class D03 implements ICriterion {
 			    		 Problem problem = new Problem();
 			    		 problem.setDescription("La clase " +classifier.getName() +
 								   "(" +classifier.getClassifierID()  +")" + " es abstracta con un solo hijo (" +children.getName() + ")");
-			    		 IQuickfix fix = new D03Fix(metamodelo,classifier,children);
-						 problem.addQuickfix(fix);
+			    		 IQuickfix fix1 = new D03Fix(metamodelo,classifier,children);
+						 problem.addQuickfix(fix1);
+						 IQuickfix fix2 = new CreateSubclassFix(metamodelo,classifier);
+						 problem.addQuickfix(fix2);
+			    		 IQuickfix fix3 = new ChangeClassToConcreteFix(metamodelo,classifier);
+						 problem.addQuickfix(fix3);
 						 problems.add(problem);
 			    	 }
 						   

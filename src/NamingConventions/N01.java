@@ -15,7 +15,7 @@ public class N01 implements ICriterion {
 	
 	EPackage metamodelo;
 	
-	String title = "Atributo con nombre parecido al de la clase (N01)";
+	String title = "(N01) Atributo con nombre parecido al de la clase";
 	
 	public N01 (EPackage metamodelo) {
 		this.metamodelo = metamodelo;
@@ -36,10 +36,10 @@ public class N01 implements ICriterion {
 			String nClass = classifier.getName().toLowerCase();
 			if (classifier instanceof EClass) {
 			      for (EAttribute attribute : ((EClass)classifier).getEAllAttributes()) {
-			    	  if (attribute.getName().contains(nClass)) {
+			    	  if ((attribute.getName()!=null && attribute.getName().contains(nClass))) {
 			    		  Problem problem = new Problem();
-			    		  problem.setDescription("El atributo " + attribute.getName() + "." + classifier.getName() 
-			              + " tiene el mismo nombre que su clase entidad");
+			    		  problem.setDescription("El nombre del atributo " + classifier.getName() + "." + attribute.getName() 
+			              + " contiene el nombre de la clase donde está definido");
 			    		  IQuickfix fix = new N01Fix(metamodelo,classifier, attribute);
 						  problem.addQuickfix(fix);
 						  problems.add(problem);

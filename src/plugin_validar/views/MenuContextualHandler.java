@@ -1,6 +1,5 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+package plugin_validar.views;
+
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -19,18 +18,10 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import plugin_validar.views.ProblemsView;
-
 public class MenuContextualHandler extends org.eclipse.core.commands.AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		//Variables
-		String nombres = "";
-		
-		//Criterios
-		Map<String,ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
-		ArrayList<String> clasesMinuscula = new ArrayList<String>();
 		
 		// Obtener el fichero seleccionado
 		IFile file = null;
@@ -52,18 +43,16 @@ public class MenuContextualHandler extends org.eclipse.core.commands.AbstractHan
 		EPackage metamodelo = (EPackage)(resource.getContents().get(0));
 		
 		// Mostrar nombre del metamodelo en un cuadro de diálogo
-		MessageDialog.openInformation(HandlerUtil.getActiveWorkbenchWindowChecked(event).getShell(),
+		/*MessageDialog.openInformation(HandlerUtil.getActiveWorkbenchWindowChecked(event).getShell(),
 		"Validador",
 		metamodelo.getName() + " tiene " + metamodelo.getEClassifiers().size() + " clases: "
-		+ nombres);
+		+ nombres);*/
 		
 		//Llamar a la vista y actualizarla
 		ProblemsView view = (ProblemsView)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView
 				("plugin_validar.views.ProblemsView");
 		//ArrayList<String> prueba = new ArrayList<String>();
 		//prueba.add("Criterios de Calidad");
-		
-		map.put("Clases Minusculas", clasesMinuscula);
 		
 		view.update(metamodelo);
 		

@@ -1,29 +1,27 @@
-package Design;
+package BestPractices;
 
 import java.io.IOException;
 
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import Interfaces.IQuickfix;
 
-public class D07Fix implements IQuickfix {
+public class BP02Fix1 implements IQuickfix {
 	
 	private EClassifier classifier;
 	private EPackage metamodelo;
-	private EAttribute attribute;
 	
-	public D07Fix (EPackage metamodelo, EClassifier classifier, EAttribute attribute) {
+	public BP02Fix1 (EPackage metamodelo, EClassifier classifier) {
 		this.classifier = classifier;
 		this.metamodelo = metamodelo;
-		this.attribute = attribute;
 	}
+
 	@Override
 	public void execute() {
-		((EClass)classifier).getEAttributes().remove(attribute);
-		
+		EcoreUtil.delete((((EClass) classifier)));
 		try {
 			metamodelo.eResource().save(null);
 		} catch (IOException e) {
@@ -33,8 +31,6 @@ public class D07Fix implements IQuickfix {
 
 	@Override
 	public String getDescription() {
-		return "Borrar el atributo " + attribute.getName() + " de la clase "
-				+ classifier.getName();
+		return "Borrar  la clase " + classifier.getName();
 	}
-
 }

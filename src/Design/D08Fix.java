@@ -2,27 +2,28 @@ package Design;
 
 import java.io.IOException;
 
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 import Interfaces.IQuickfix;
 
-public class D07Fix implements IQuickfix {
+public class D08Fix implements IQuickfix {
 	
 	private EClassifier classifier;
 	private EPackage metamodelo;
-	private EAttribute attribute;
+	private EStructuralFeature feature;
 	
-	public D07Fix (EPackage metamodelo, EClassifier classifier, EAttribute attribute) {
+	public D08Fix (EPackage metamodelo, EClassifier classifier, EStructuralFeature feature) {
 		this.classifier = classifier;
 		this.metamodelo = metamodelo;
-		this.attribute = attribute;
+		this.feature = feature;
 	}
 	@Override
 	public void execute() {
-		((EClass)classifier).getEAttributes().remove(attribute);
+		
+		((EClass)classifier).getEStructuralFeatures().remove(feature);
 		
 		try {
 			metamodelo.eResource().save(null);
@@ -33,8 +34,7 @@ public class D07Fix implements IQuickfix {
 
 	@Override
 	public String getDescription() {
-		return "Borrar el atributo " + attribute.getName() + " de la clase "
-				+ classifier.getName();
+		return "Borrar  la pripiedad (atributo o referencia) " + feature.getName();
 	}
 
 }

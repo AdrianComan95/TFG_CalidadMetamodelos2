@@ -8,7 +8,6 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
 
 import Interfaces.ICriterion;
 import Interfaces.IQuickfix;
@@ -36,7 +35,6 @@ public class D07 implements ICriterion {
 	public List<Problem> check() {
 		
 		List<Problem> problems = new ArrayList<Problem>();
-		List<EClass> classes = new ArrayList<EClass>();
 		
 		EList<EClassifier> classifiers = metamodelo.getEClassifiers();
 		for (EClassifier classifier : classifiers) {

@@ -15,7 +15,7 @@ public class N02 implements ICriterion {
 	
 	EPackage metamodelo;
 	
-	String title = "Atributo con nombre identico al de la clase (N02)";
+	String title = "(N02) Atributo con nombre identico al de la clase";
 	
 	public N02 (EPackage metamodelo) {
 		this.metamodelo = metamodelo;
@@ -39,7 +39,7 @@ public class N02 implements ICriterion {
 			      for (EAttribute attribute : ((EClass)classifier).getEAllAttributes()) {
 			    	  if (attribute.getName().toLowerCase().equals(nClass)) {
 			    		  Problem problem = new Problem();
-			    		  problem.setDescription("El atributo " + attribute.getName() + "." + classifier.getName() 
+			    		  problem.setDescription("El atributo " + classifier.getName() + "." + attribute.getName() 
 			              + " puede ser una potencial asociación");
 			    		  IQuickfix fix = new N02Fix(metamodelo,classifier,attribute);
 						  problem.addQuickfix(fix);

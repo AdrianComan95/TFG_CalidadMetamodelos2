@@ -16,7 +16,7 @@ public class D01 implements ICriterion {
 	
 	EPackage metamodelo;
 	
-	String title = "Atributo se repite entre las clases de la misma jerarquia (D01)";
+	String title = "(D01) Atributo se repite entre las clases de la misma jerarquia";
 
 	public D01 (EPackage metamodelo) {
 		this.metamodelo = metamodelo;
