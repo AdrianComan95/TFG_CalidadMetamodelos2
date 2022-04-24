@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
@@ -38,8 +37,6 @@ public class D02 implements ICriterion {
 		List<Problem> problems = new ArrayList<Problem>();
 		
 		EList<EClassifier> classifiers = metamodelo.getEClassifiers();
-		List<String> allAtributesNames = new ArrayList<String>();
-		List<EAttribute> allAtributesObjet = new ArrayList<EAttribute>();
 		for (EClassifier classifier : classifiers) {
 			
 			if (classifier instanceof EClass && ((EClass)classifier).getEAllSuperTypes().isEmpty() 

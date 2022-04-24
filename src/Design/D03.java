@@ -8,10 +8,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 
-import BestPractices.BP01Fix;
 import Interfaces.ICriterion;
 import Interfaces.IQuickfix;
-import NamingConventions.LowerClassFix;
 import Utils.ChangeClassToConcreteFix;
 import Utils.CreateSubclassFix;
 import plugin_validar.views.Problem;
