@@ -1,5 +1,6 @@
 package plugin_validar.views;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -145,10 +146,93 @@ public class ProblemsView extends ViewPart {
 
 		///////////////
 		public void update(EPackage metamodel) {
-			TreeParent root = new TreeParent("Criterios de calidad no superados");
-			//TreeParent root = new TreeParent(problems.get(0));
+			//COMPROBAMOS SI EXISTE EL FICHERO DE CONFIGURACIÓN Y 
+			//EN CASO CONTRARIO LO CREAMOS CON CON LOS VALORES POR DEFECTO
+			FileReader fr = null;
+			String directory = System.getProperty("user.dir");
+			File file = new File(directory + "/conf.txt");
+			//Variables de configuración
+			Number confN05, confM01, confM02, confM03, confM04, confM05 ;
+			if(file.exists()) {
+				System.out.println("Fichero de configuración encontrado en " + directory + "/conf.txt");
+				try {
+			         // Apertura del fichero y creacion de BufferedReader para poder
+			         // hacer una lectura comoda (disponer del metodo readLine()).
+			         
+			         fr = new FileReader (file);
+			         BufferedReader br = new BufferedReader(fr);
+
+			         // Lectura del fichero
+			         String line;
+			         int index = 0;
+			         while((line=br.readLine())!=null) {
+			        	 String dataConf = line.substring(0, line.indexOf(' '));
+			        	 if (index == 0)
+			        		 confN05 = Integer.parseInt(dataConf);
+			        	 if (index == 1)
+			        		 confM01 = Integer.parseInt(dataConf);
+			        	 if (index == 2)
+			        		 confM02 = Integer.parseInt(dataConf);
+			        	 if (index == 3)
+			        		 confM03 = Integer.parseInt(dataConf);
+			        	 if (index == 4)
+			        		 confM04 = Integer.parseInt(dataConf);
+			        	 if (index == 5)
+			        		 confM05 = Integer.parseInt(dataConf);
+			        	 index ++;
+			         }
+			            
+			      }
+			      catch(Exception e){
+			         e.printStackTrace();
+			      }finally{
+			         // En el finally cerramos el fichero, para asegurarnos
+			         // que se cierra tanto si todo va bien como si salta 
+			         // una excepcion.
+			         try{                    
+			            if( null != fr ){   
+			               fr.close();     
+			            }                  
+			         }catch (Exception e2){ 
+			            e2.printStackTrace();
+			         }
+			      }
+			}
+			else {
+				confN05 = 10; confM01 = 10; confM02 = 5; confM03 = 5; confM04 = 5; confM05 = 10;
+				String[] lines = { 
+						"10 /N05. Nº Maximo de caracteres para los nombres de los elementos",
+						"10 /M01. Nº Maximo de atributos de una clase",
+						"5 /M02. Nº Maximo de referencias de una clase",
+						"5 /M03. Nº Maximo de veces que una clase es referenciada",
+						"5 /M04. Nº maximo de niveles de profundidad de una jerarquia",
+						"10 /M05. Nº numero maximo de hijos directos" 
+						};
+
+				/** ESCRITURA **/
+				FileWriter fileWrite = null;
+				try {
+					
+					fileWrite = new FileWriter(directory + "/conf.txt");
+
+					// Escribimos linea a linea en el fichero
+					for (String line : lines) {
+						fileWrite.write(line + "\n");
+					}
+					
+					System.out.println("Fichero de configuración creado en " + directory + "/conf.txt");
+
+					fileWrite.close();
+
+				} catch (Exception ex) {
+					System.out.println("Exception: " + ex.getMessage());
+				}
+			}
 			
-			//---DISEÑO
+			
+			TreeParent root = new TreeParent("Criterios de calidad no superados");
+			
+			//---CRITERIOS
 			
 			List<ICriterion> problems = List.of(new D03(metamodel), new BP01(metamodel),
 					new BP02(metamodel), new LowerClass(metamodel), new N01(metamodel),
