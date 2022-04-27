@@ -40,7 +40,7 @@ public class D08 implements ICriterion {
 		for (EClassifier classifier : classifiers) {
 			if (classifier instanceof EClass) {
 		    	  for (EStructuralFeature feature : ((EClass)classifier).getEStructuralFeatures()) {
-		    		  if (feature.getUpperBound() > 0 || feature.getUpperBound() == -1) {
+		    		  if (feature.getUpperBound()<=0 && feature.getUpperBound()!=1) {
 		    			  Problem problem = new Problem();
 	    				  problem.setDescription("La propiedad (atributo o referencia) "+ feature.getName() + " de la clase " + classifier.getName() + "(" 
 	    				  + classifier.getClassifierID() + ")" + "tiene una cardanilidad maxima menor que 0");

@@ -40,13 +40,15 @@ public class D07 implements ICriterion {
 		for (EClassifier classifier : classifiers) {
 			if (classifier instanceof EClass) {
 		    	  for (EAttribute attribute1 : ((EClass)classifier).getEAttributes()) {
-		    		  for (EAttribute attribute2 : ((EClass)classifier).getEAllAttributes()) {
-		    			  int count = 0;
+		    		  int count = 0;
+		    		  for (EAttribute attribute2 : ((EClass)classifier).getEAllAttributes()) {		    			
 		    			  if (attribute1.getName().equals(attribute2.getName())) {
 		    				  count ++;
 		    			  }
 		    			  //SI COUNT LLEGA A DOS, ESE ATRIBUTO LO DEFINE LA CLASE Y ALGUNO DE SUS PADRES
 		    			  if (count == 2) {
+		    				  System.out.println(attribute1.getName() +"--ssss--" +(attribute2.getName())+ attribute1.getName().equals(attribute2.getName()));
+
 		    				  Problem problem = new Problem();
 		    				  problem.setDescription("La atributo "+ attribute1.getName() + " de la clase " + classifier.getName() + "(" 
 		    				  + classifier.getClassifierID() + ")" + "es un atributo heredado y anulado en la clase");

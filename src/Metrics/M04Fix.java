@@ -1,29 +1,25 @@
-package Design;
+package Metrics;
 
 import java.io.IOException;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import Interfaces.IQuickfix;
+public class M04Fix implements IQuickfix {
 
-public class D06Fix implements IQuickfix {
-	
 	private EClassifier classifier;
 	private EPackage metamodelo;
-	private EReference reference;
-	
-	public D06Fix (EPackage metamodelo, EClassifier classifier, EReference reference) {
+	private EAttribute attribute;
+
+	public M04Fix(EPackage metamodelo, EClassifier classifier) {
 		this.classifier = classifier;
 		this.metamodelo = metamodelo;
-		this.reference = reference;
 	}
+
 	@Override
 	public void execute() {
-		EcoreUtil.delete(reference);
-		
+		//TODO
 		try {
 			metamodelo.eResource().save(null);
 		} catch (IOException e) {
@@ -33,8 +29,7 @@ public class D06Fix implements IQuickfix {
 
 	@Override
 	public String getDescription() {
-		return "Borrar  la referencia " + reference.getName() + " en la clase "
-				+ classifier.getName();
+		return "//TODO";
 	}
 
 }

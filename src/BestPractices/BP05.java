@@ -43,7 +43,7 @@ public class BP05 implements ICriterion {
 				    				 + " es concreta, sin superclases y con referencias");
 				    		 IQuickfix fix1 = new BP05Fix(metamodelo,classifier);
 							 problem.addQuickfix(fix1);
-							 
+							 problems.add(problem);
 			     }
 						   
 			 } 

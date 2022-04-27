@@ -43,7 +43,7 @@ public class D02 implements ICriterion {
 					&& ((EClass)classifier).getEAllReferences().isEmpty()  ) {
 				Boolean isolated = true;
 				for (EClassifier classifier2 : classifiers) {  
-					if (((EClass) classifier).isSuperTypeOf((EClass) classifier2)){
+					if (((EClass) classifier).isSuperTypeOf((EClass) classifier2) && !classifier.equals(classifier2)){
 						isolated = false;
 						break;
 					}

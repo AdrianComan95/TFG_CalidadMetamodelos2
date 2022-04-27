@@ -11,6 +11,10 @@ import BestPractices.*;
 import Design.*;
 import Interfaces.ICriterion;
 import Interfaces.IQuickfix;
+import Metrics.M01;
+import Metrics.M02;
+import Metrics.M03;
+import Metrics.M04;
 import Interfaces.ICriterion.ProblemType;
 import NamingConventions.*;
 
@@ -151,8 +155,8 @@ public class ProblemsView extends ViewPart {
 			FileReader fr = null;
 			String directory = System.getProperty("user.dir");
 			File file = new File(directory + "/conf.txt");
-			//Variables de configuración
-			Number confN05, confM01, confM02, confM03, confM04, confM05 ;
+			//Variables de configuración por defecto
+			int confN05 = 10, confM01 = 10, confM02 = 5, confM03 = 5, confM04 = 5, confM05 = 10;
 			if(file.exists()) {
 				System.out.println("Fichero de configuración encontrado en " + directory + "/conf.txt");
 				try {
@@ -199,7 +203,6 @@ public class ProblemsView extends ViewPart {
 			      }
 			}
 			else {
-				confN05 = 10; confM01 = 10; confM02 = 5; confM03 = 5; confM04 = 5; confM05 = 10;
 				String[] lines = { 
 						"10 /N05. Nº Maximo de caracteres para los nombres de los elementos",
 						"10 /M01. Nº Maximo de atributos de una clase",
@@ -238,7 +241,8 @@ public class ProblemsView extends ViewPart {
 					new BP02(metamodel), new LowerClass(metamodel), new N01(metamodel),
 					new N02(metamodel), new D01(metamodel), new BP01(metamodel), new BP05(metamodel),
 					new D04(metamodel), new D05(metamodel), new D06(metamodel), new D07(metamodel),
-					new D08(metamodel));
+					new D08(metamodel), new M01(metamodel, confM01), new M02(metamodel, confM02),
+					new M03(metamodel, confM03), new M04(metamodel, confM04));
 			TreeParent createParentDesign = null;
 			TreeParent createParentBestPractice = null;
 			TreeParent createParentNamingConvection = null;

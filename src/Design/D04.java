@@ -40,7 +40,7 @@ public class D04 implements ICriterion {
 		EList<EClassifier> classifiers = metamodelo.getEClassifiers();
 		for (EClassifier classifier : classifiers) {
 			if (classifier instanceof EClass) {
-		    	  for (EReference reference : ((EClass)classifier).getEAllReferences()) {
+		    	  for (EReference reference : ((EClass)classifier).getEReferences()) {
 		    		  if(reference.isContainment()) {
 		    			  if (classes.contains(reference.getEReferenceType())) {
 		    				  Problem problem = new Problem();

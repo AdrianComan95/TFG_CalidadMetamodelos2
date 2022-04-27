@@ -2,10 +2,10 @@ package Design;
 
 import java.io.IOException;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import Interfaces.IQuickfix;
 
@@ -22,7 +22,7 @@ public class D04Fix implements IQuickfix {
 	}
 	@Override
 	public void execute() {
-		((EClass)classifier).getEAllReferences().remove(reference);
+		EcoreUtil.delete(reference);
 		
 		try {
 			metamodelo.eResource().save(null);
@@ -33,7 +33,7 @@ public class D04Fix implements IQuickfix {
 
 	@Override
 	public String getDescription() {
-		return "Borrar  la referencia a " + reference.getEReferenceType().getName() + " en la clase "
+		return "Borrar  la referencia " + reference.getName() + " en la clase "
 				+ classifier.getName();
 	}
 

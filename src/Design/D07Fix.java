@@ -3,9 +3,9 @@ package Design;
 import java.io.IOException;
 
 import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import Interfaces.IQuickfix;
 
@@ -22,7 +22,7 @@ public class D07Fix implements IQuickfix {
 	}
 	@Override
 	public void execute() {
-		((EClass)classifier).getEAttributes().remove(attribute);
+		EcoreUtil.delete(attribute);
 		
 		try {
 			metamodelo.eResource().save(null);
