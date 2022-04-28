@@ -15,6 +15,7 @@ import Metrics.M01;
 import Metrics.M02;
 import Metrics.M03;
 import Metrics.M04;
+import Metrics.M05;
 import Interfaces.ICriterion.ProblemType;
 import NamingConventions.*;
 
@@ -242,7 +243,9 @@ public class ProblemsView extends ViewPart {
 					new N02(metamodel), new D01(metamodel), new BP01(metamodel), new BP05(metamodel),
 					new D04(metamodel), new D05(metamodel), new D06(metamodel), new D07(metamodel),
 					new D08(metamodel), new M01(metamodel, confM01), new M02(metamodel, confM02),
-					new M03(metamodel, confM03), new M04(metamodel, confM04));
+					new M03(metamodel, confM03), new M04(metamodel, confM04), new M05(metamodel, confM05),
+					new N05(metamodel, confN05)
+					);
 			TreeParent createParentDesign = null;
 			TreeParent createParentBestPractice = null;
 			TreeParent createParentNamingConvection = null;
