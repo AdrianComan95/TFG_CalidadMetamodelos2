@@ -1,8 +1,8 @@
 package plugin_validar.views;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.net.URL;
+import java.util.*;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.*;
@@ -11,13 +11,13 @@ import BestPractices.*;
 import Design.*;
 import Interfaces.ICriterion;
 import Interfaces.IQuickfix;
-import Metrics.M01;
-import Metrics.M02;
-import Metrics.M03;
-import Metrics.M04;
-import Metrics.M05;
+import Metrics.*;
 import Interfaces.ICriterion.ProblemType;
 import NamingConventions.*;
+
+import edu.mit.jwi.*;
+import edu.mit.jwi.Dictionary;
+import edu.mit.jwi.item.*;
 
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.graphics.Image;
@@ -148,9 +148,38 @@ public class ProblemsView extends ViewPart {
  * In a real code, you will connect to a real model and
  * expose its hierarchy.
  */
+		
+		public void testDictionary () throws IOException {
+			
+			 // construct the URL to the Wordnet dictionary directory
+			 String wnhome = System . getenv (" WNHOME ");
+			 String path = wnhome + File . separator + " dict ";
+			 System.out.println(wnhome + "--");
+			 System.out.println(path + "--");
+			 URL url = new URL(" file ", null , path );
+			
+			 // construct the dictionary object and open it
+			 IDictionary dict = new Dictionary ( url);
+			 dict . open ();
+			
+			 // look up first sense of the word "dog "
+			 IIndexWord idxWord = dict . getIndexWord ("dog", POS. NOUN );
+			 IWordID wordID = idxWord . getWordIDs ().get (0) ;
+			 IWord word = dict . getWord ( wordID );
+			 System .out . println ("Id = " + wordID );
+			 System .out . println (" Lemma = " + word . getLemma ());
+			 System .out . println (" Gloss = " + word . getSynset (). getGloss ());
+			 }
 
 		///////////////
 		public void update(EPackage metamodel) {
+			
+			try {
+				testDictionary();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			//COMPROBAMOS SI EXISTE EL FICHERO DE CONFIGURACIÓN Y 
 			//EN CASO CONTRARIO LO CREAMOS CON CON LOS VALORES POR DEFECTO
 			FileReader fr = null;
