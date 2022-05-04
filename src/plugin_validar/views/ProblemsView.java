@@ -152,8 +152,8 @@ public class ProblemsView extends ViewPart {
 		public void testDictionary () throws IOException {
 			
 			 // construct the URL to the Wordnet dictionary directory
-			 String wnhome = System . getenv (" WNHOME ");
-			 String path = wnhome + File . separator + " dict ";
+			 String wnhome = System . getenv ("C:\\Program Files (x86)\\WordNet\\2.1");
+			 String path = wnhome + File.separator + " dict ";
 			 System.out.println(wnhome + "--");
 			 System.out.println(path + "--");
 			 URL url = new URL(" file ", null , path );
