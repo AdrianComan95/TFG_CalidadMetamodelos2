@@ -152,11 +152,9 @@ public class ProblemsView extends ViewPart {
 		public void testDictionary () throws IOException {
 			
 			 // construct the URL to the Wordnet dictionary directory
-			 String wnhome = System . getenv ("C:\\Program Files (x86)\\WordNet\\2.1");
-			 String path = wnhome + File.separator + " dict ";
-			 System.out.println(wnhome + "--");
-			 System.out.println(path + "--");
-			 URL url = new URL(" file ", null , path );
+			 String wnhome = "C:\\Program Files (x86)\\WordNet\\2.1";
+			 String path = wnhome + File.separator + "dict";
+			 URL url = new URL("file", null, path);
 			
 			 // construct the dictionary object and open it
 			 IDictionary dict = new Dictionary ( url);
@@ -166,10 +164,11 @@ public class ProblemsView extends ViewPart {
 			 IIndexWord idxWord = dict . getIndexWord ("dog", POS. NOUN );
 			 IWordID wordID = idxWord . getWordIDs ().get (0) ;
 			 IWord word = dict . getWord ( wordID );
+			 
 			 System .out . println ("Id = " + wordID );
 			 System .out . println (" Lemma = " + word . getLemma ());
 			 System .out . println (" Gloss = " + word . getSynset (). getGloss ());
-			 }
+		}
 
 		///////////////
 		public void update(EPackage metamodel) {
