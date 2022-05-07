@@ -149,7 +149,7 @@ public class ProblemsView extends ViewPart {
  * expose its hierarchy.
  */
 		
-		public void testDictionary () throws IOException {
+		public IDictionary createDictionary () throws IOException {
 			
 			 // construct the URL to the Wordnet dictionary directory
 			 String wnhome = "C:\\Program Files (x86)\\WordNet\\2.1";
@@ -159,26 +159,24 @@ public class ProblemsView extends ViewPart {
 			 // construct the dictionary object and open it
 			 IDictionary dict = new Dictionary ( url);
 			 dict . open ();
+			 return dict;
 			
 			 // look up first sense of the word "dog "
-			 IIndexWord idxWord = dict . getIndexWord ("dog", POS. NOUN );
+			 /*IIndexWord idxWord = dict . getIndexWord ("dog", POS. NOUN );
 			 IWordID wordID = idxWord . getWordIDs ().get (0) ;
 			 IWord word = dict . getWord ( wordID );
 			 
 			 System .out . println ("Id = " + wordID );
 			 System .out . println (" Lemma = " + word . getLemma ());
-			 System .out . println (" Gloss = " + word . getSynset (). getGloss ());
+			 System .out . println (" Gloss = " + word . getSynset (). getGloss ());*/
 		}
 
 		///////////////
-		public void update(EPackage metamodel) {
+		public void update(EPackage metamodel) throws IOException {
+					
+			//CREAMOS DICCIONARIO
+			IDictionary dict = createDictionary();
 			
-			try {
-				testDictionary();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
 			//COMPROBAMOS SI EXISTE EL FICHERO DE CONFIGURACIÓN Y 
 			//EN CASO CONTRARIO LO CREAMOS CON CON LOS VALORES POR DEFECTO
 			FileReader fr = null;
@@ -272,7 +270,7 @@ public class ProblemsView extends ViewPart {
 					new D04(metamodel), new D05(metamodel), new D06(metamodel), new D07(metamodel),
 					new D08(metamodel), new M01(metamodel, confM01), new M02(metamodel, confM02),
 					new M03(metamodel, confM03), new M04(metamodel, confM04), new M05(metamodel, confM05),
-					new N05(metamodel, confN05)
+					new N05(metamodel, confN05), new N09 (metamodel, dict)
 					);
 			TreeParent createParentDesign = null;
 			TreeParent createParentBestPractice = null;
@@ -375,7 +373,12 @@ public class ProblemsView extends ViewPart {
 	public void update (EPackage metamodel) {
 		this.metamodel = metamodel;
 		ViewContentProvider provider = (ViewContentProvider)viewer.getContentProvider();
-	    provider.update(metamodel);
+	    try {
+			provider.update(metamodel);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	    viewer.refresh();
 	}
 	////////////
