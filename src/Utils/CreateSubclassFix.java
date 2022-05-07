@@ -27,18 +27,20 @@ public class CreateSubclassFix implements IQuickfix {
 		dialog.open();
 		String newName = dialog.getNewName();
 		
-		if (!newName.isEmpty()) {
-			EClass newClass = EcoreFactory.eINSTANCE.createEClass();
-			newClass.setName(newName);
-			newClass.setAbstract(false);
-			newClass.getESuperTypes().add((EClass) classifier);
-			
-			metamodelo.getEClassifiers().add(newClass);
-			
-			try {
-				metamodelo.eResource().save(null);
-			} catch (IOException e) {
-				e.printStackTrace();
+		if (newName != null) {
+			if (!newName.isEmpty()) {
+				EClass newClass = EcoreFactory.eINSTANCE.createEClass();
+				newClass.setName(newName);
+				newClass.setAbstract(false);
+				newClass.getESuperTypes().add((EClass) classifier);
+				
+				metamodelo.getEClassifiers().add(newClass);
+				
+				try {
+					metamodelo.eResource().save(null);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		

@@ -8,7 +8,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
 import Interfaces.ICriterion;
-import Interfaces.IQuickfix;
 import plugin_validar.views.Problem;
 
 public class M03 implements ICriterion {
@@ -50,8 +49,6 @@ public class M03 implements ICriterion {
 				Problem problem = new Problem();
 				problem.setDescription("La clase " + classR.getName() + "(" + classR.getClassifierID() + ")"
 						+ "es referida demasiadas veces (" + frequency + ")" );
-				IQuickfix fix = new M03Fix(metamodelo, classR);
-				problem.addQuickfix(fix);
 				problems.add(problem);
 			}
 		}

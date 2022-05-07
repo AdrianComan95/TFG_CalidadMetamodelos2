@@ -7,7 +7,6 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 
 import Interfaces.ICriterion;
-import Interfaces.IQuickfix;
 import plugin_validar.views.Problem;
 
 public class M05 implements ICriterion {
@@ -48,8 +47,6 @@ public class M05 implements ICriterion {
 				Problem problem = new Problem();
 				problem.setDescription("La clase " + root.getName() + "(" + root.getClassifierID() + ")"
 						+ "supera el maximo de hijos directos");
-				IQuickfix fix1 = new M05Fix(metamodelo, classifier);
-				problem.addQuickfix(fix1);
 				problems.add(problem);
 			}
 		}

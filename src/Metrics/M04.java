@@ -7,7 +7,6 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 
 import Interfaces.ICriterion;
-import Interfaces.IQuickfix;
 import plugin_validar.views.Problem;
 
 public class M04 implements ICriterion {
@@ -43,8 +42,6 @@ public class M04 implements ICriterion {
 						Problem problem = new Problem();
 						problem.setDescription("La clase raiz " + root.getName() + "(" + root.getClassifierID() + ")"
 								+ "supera la profundidad maxima");
-						IQuickfix fix1 = new M04Fix(metamodelo, classifier);
-						problem.addQuickfix(fix1);
 						problems.add(problem);
 					}
 					

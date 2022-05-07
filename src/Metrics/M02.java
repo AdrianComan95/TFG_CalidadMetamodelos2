@@ -8,7 +8,6 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 
 import Interfaces.ICriterion;
-import Interfaces.IQuickfix;
 import plugin_validar.views.Problem;
 
 public class M02 implements ICriterion {
@@ -41,8 +40,6 @@ public class M02 implements ICriterion {
 					problem.setDescription("La clase " + classifier.getName() 
 							+"(" +classifier.getClassifierID()  +")" + "tiene mas de " + maxReferences
 							+ " referencias.");
-					IQuickfix fix = new M02Fix(metamodelo, classifier);
-					problem.addQuickfix(fix);
 					problems.add(problem);
 				}
 
