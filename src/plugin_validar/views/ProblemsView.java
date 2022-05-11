@@ -160,15 +160,6 @@ public class ProblemsView extends ViewPart {
 			 IDictionary dict = new Dictionary ( url);
 			 dict . open ();
 			 return dict;
-			
-			 // look up first sense of the word "dog "
-			 /*IIndexWord idxWord = dict . getIndexWord ("dog", POS. NOUN );
-			 IWordID wordID = idxWord . getWordIDs ().get (0) ;
-			 IWord word = dict . getWord ( wordID );
-			 
-			 System .out . println ("Id = " + wordID );
-			 System .out . println (" Lemma = " + word . getLemma ());
-			 System .out . println (" Gloss = " + word . getSynset (). getGloss ());*/
 		}
 
 		///////////////
@@ -250,7 +241,7 @@ public class ProblemsView extends ViewPart {
 						fileWrite.write(line + "\n");
 					}
 					
-					System.out.println("Fichero de configuración creado en " + directory + "/conf.txt");
+					System.out.println("Fichero de configuración creado en " + directory + "\\conf.txt");
 
 					fileWrite.close();
 
@@ -270,7 +261,8 @@ public class ProblemsView extends ViewPart {
 					new D04(metamodel), new D05(metamodel), new D06(metamodel), new D07(metamodel),
 					new D08(metamodel), new M01(metamodel, confM01), new M02(metamodel, confM02),
 					new M03(metamodel, confM03), new M04(metamodel, confM04), new M05(metamodel, confM05),
-					new N05(metamodel, confN05), new N09 (metamodel, dict)
+					new N05(metamodel, confN05), new N09(metamodel, dict), new N03(metamodel, dict),
+					new N04(metamodel, dict), new N06(metamodel,dict)
 					);
 			TreeParent createParentDesign = null;
 			TreeParent createParentBestPractice = null;

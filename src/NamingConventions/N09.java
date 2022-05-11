@@ -40,9 +40,9 @@ public class N09 implements ICriterion {
 	public List<Problem> check() {
 		List<Problem> problems = new ArrayList<Problem>();
 
-		List<EClass> classifiersWithOriblems = new ArrayList<EClass>();
+		List<EClass> classifiersWithProblems = new ArrayList<EClass>();
 		for (EClassifier classifier : metamodelo.getEClassifiers()) {
-			if (classifier instanceof EClass && !classifiersWithOriblems.contains(classifier.eClass())) {
+			if (classifier instanceof EClass && !classifiersWithProblems.contains(classifier.eClass())) {
 				IIndexWord idxWord = dictionary.getIndexWord(classifier.getName(), POS.NOUN);
 				if (idxWord != null) {
 					IWordID wordID = idxWord.getWordIDs().get(0); // 1st meaning
@@ -65,8 +65,8 @@ public class N09 implements ICriterion {
 									problem.addQuickfix(fix2);
 									problems.add(problem);
 								}
-								classifiersWithOriblems.add((EClass) classifier);
-								classifiersWithOriblems.add((EClass) classifier2);
+								classifiersWithProblems.add((EClass) classifier);
+								classifiersWithProblems.add((EClass) classifier2);
 							}
 
 						}
