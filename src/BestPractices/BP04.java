@@ -1,4 +1,4 @@
-package Design;
+package BestPractices;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,13 +11,13 @@ import org.eclipse.emf.ecore.EReference;
 import Interfaces.ICriterion;
 import plugin_validar.views.Problem;
 
-public class D09 implements ICriterion {
+public class BP04 implements ICriterion {
 
 	EPackage metamodelo;
 
-	String title = "(D09) Ninguna clase puede estar contenida en dos clases, cuando es obligatoriamente en una de ellas";
+	String title = "(BP04) Ninguna clase puede estar contenida en dos clases";
 
-	public D09(EPackage metamodelo) {
+	public BP04(EPackage metamodelo) {
 		this.metamodelo = metamodelo;
 	}
 
@@ -27,7 +27,7 @@ public class D09 implements ICriterion {
 	}
 
 	public ProblemType getProblemType() {
-		return ProblemType.DESIGN;
+		return ProblemType.BEST_PRACTICE;
 	}
 
 	@Override
@@ -37,24 +37,21 @@ public class D09 implements ICriterion {
 			int nClassContained = 0;
 			if (classifier instanceof EClass) {
 				for (EClassifier classifier2 : metamodelo.getEClassifiers()) {
-					if ((classifier instanceof EClass) && !classifier2.equals(classifier)
-							&& ((EClass) classifier2).getEAllReferences().size() > 0) {
-						for (EReference reference : ((EClass) classifier2).getEAllReferences()) {
-							if (reference.getEOpposite() != null) {
-								if (reference.isContainment() && reference.getEOpposite().getLowerBound() == 0) {
-									if (reference.getEType().equals(classifier)) {
-										nClassContained++;
-										break;
+					if ((classifier instanceof EClass) && !classifier2.equals(classifier) && ((EClass) classifier2).getEAllReferences().size() > 0) {
+								for (EReference reference : ((EClass) classifier2).getEAllReferences()) {
+									if (reference.isContainment()) {
+										if (reference.getEType().equals(classifier)) {
+											nClassContained++;
+											break;
+										}
 									}
 								}
-							}							
-						}
 					}
 				}
 				if (nClassContained > 1) {
 					Problem problem = new Problem();
-					problem.setDescription("La clase " + classifier.getName() + "(" + classifier.getClassifierID() + ")"
-							+ " es contenida en dos o mas clases");
+					problem.setDescription("La clase " + classifier.getName() + "(" + classifier.getClassifierID()
+					+ ")" + " es contenida en dos o mas clases");
 					problems.add(problem);
 				}
 			}

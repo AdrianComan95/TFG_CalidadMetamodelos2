@@ -17,7 +17,7 @@ public class D07 implements ICriterion {
 	
 	EPackage metamodelo;
 	
-	String title = "(D07) Atributos heredados anulados";
+	String title = "(D07) No hay atributos heredados anulados";
 
 	public D07 (EPackage metamodelo) {
 		this.metamodelo = metamodelo;

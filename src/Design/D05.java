@@ -17,7 +17,7 @@ public class D05 implements ICriterion {
 	
 	EPackage metamodelo;
 	
-	String title = "(D05) Clases irrelevantes (abstractas y subclase de una clase concreta)";
+	String title = "(D05) No hay clases irrelevantes (abstractas y subclase de una clase concreta)";
 
 	public D05 (EPackage metamodelo) {
 		this.metamodelo = metamodelo;

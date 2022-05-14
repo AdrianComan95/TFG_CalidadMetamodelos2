@@ -18,7 +18,7 @@ public class D03 implements ICriterion {
 	
 	EPackage metamodelo;
 	
-	String title = "Clase abstracta con un solo hijo (D03)";
+	String title = "(D03) Ninguna clase abstracta es superior a una sola";
 
 	public D03 (EPackage metamodelo) {
 		this.metamodelo = metamodelo;

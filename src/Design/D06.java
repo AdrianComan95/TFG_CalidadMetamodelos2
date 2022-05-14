@@ -17,7 +17,7 @@ public class D06 implements ICriterion {
 	
 	EPackage metamodelo;
 	
-	String title = "(D06) Asociación bidireccional";
+	String title = "(D06) No existen ciclos de composición";
 
 	public D06 (EPackage metamodelo) {
 		this.metamodelo = metamodelo;

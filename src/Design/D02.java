@@ -17,7 +17,7 @@ public class D02 implements ICriterion {
 	
 	EPackage metamodelo;
 	
-	String title = "(D02) Clase aislada";
+	String title = "(D02) No hay clases aisladas";
 
 	public D02 (EPackage metamodelo) {
 		this.metamodelo = metamodelo;

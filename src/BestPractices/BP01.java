@@ -2,21 +2,19 @@ package BestPractices;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 
 import Interfaces.ICriterion;
 import Interfaces.IQuickfix;
-import NamingConventions.LowerClassFix;
 import plugin_validar.views.Problem;
 
 public class BP01 implements ICriterion {
 	
 	EPackage metamodelo;
 	
-	String title = "Problema de diamante (BP01)";
+	String title = " (BP01) Un atributo no se repite entre todas las clases especificas de una jerarquia (Problema de diamante)";
 	
 	public BP01 (EPackage metamodelo) {
 		this.metamodelo = metamodelo;

@@ -10,20 +10,21 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import Interfaces.IQuickfix;
 
 public class D07Fix implements IQuickfix {
-	
+
 	private EClassifier classifier;
 	private EPackage metamodelo;
 	private EAttribute attribute;
-	
-	public D07Fix (EPackage metamodelo, EClassifier classifier, EAttribute attribute) {
+
+	public D07Fix(EPackage metamodelo, EClassifier classifier, EAttribute attribute) {
 		this.classifier = classifier;
 		this.metamodelo = metamodelo;
 		this.attribute = attribute;
 	}
+
 	@Override
 	public void execute() {
 		EcoreUtil.delete(attribute);
-		
+
 		try {
 			metamodelo.eResource().save(null);
 		} catch (IOException e) {
@@ -33,8 +34,7 @@ public class D07Fix implements IQuickfix {
 
 	@Override
 	public String getDescription() {
-		return "Borrar el atributo " + attribute.getName() + " de la clase "
-				+ classifier.getName();
+		return "Borrar el atributo " + attribute.getName() + " de la clase " + classifier.getName();
 	}
 
 }

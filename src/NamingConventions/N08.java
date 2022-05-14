@@ -14,19 +14,19 @@ import edu.mit.jwi.item.IIndexWord;
 import edu.mit.jwi.item.POS;
 import plugin_validar.views.Problem;
 
-public class N07 implements ICriterion {
+public class N08 implements ICriterion {
 
 	EPackage metamodelo;
 	IDictionary dictionary;
 
-	public N07(EPackage metamodelo, IDictionary dictionary) {
+	public N08(EPackage metamodelo, IDictionary dictionary) {
 		this.metamodelo = metamodelo;
 		this.dictionary = dictionary;
 	}
 
 	@Override
 	public String getTitle() {
-		return "(N07) Cada atributo no booleano tiene una frase nominal";
+		return "(N08) Cada atributo booleano tiene una frase verbal";
 	}
 
 	public ProblemType getProblemType() {
@@ -39,17 +39,18 @@ public class N07 implements ICriterion {
 
 		for (EClassifier classifier : metamodelo.getEClassifiers()) {
 			for (EAttribute attribute : ((EClass) classifier).getEAttributes()) {
-				if (!attribute.getEAttributeType().getName().equals("EBoolean")) {
+				if (attribute.getEAttributeType().getName().equals("EBoolean")) {
 					String[] words = attribute.getName().split("(?=[A-Z])");
 					if (words.length == 2) {
-						IIndexWord idxWord = dictionary.getIndexWord(words[1].toLowerCase(), POS.NOUN);
-						if (idxWord != null) {
+						IIndexWord idxWord1 = dictionary.getIndexWord(words[0].toLowerCase(), POS.VERB);
+						IIndexWord idxWord2 = dictionary.getIndexWord(words[1].toLowerCase(), POS.VERB);
+						if (idxWord1 != null && idxWord2 != null) {
 							break;
 						}
 					}
 					Problem problem = new Problem();
 					problem.setDescription(
-							"La atributo no boleano con el nombre " + attribute.getName() + " no es una frase nominal");
+							"El atributo booleano con el nombre " + attribute.getName() + " no es una frase verbal");
 					problems.add(problem);
 				}
 

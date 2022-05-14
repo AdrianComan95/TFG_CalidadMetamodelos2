@@ -176,7 +176,7 @@ public class ProblemsView extends ViewPart {
 			//Variables de configuración por defecto
 			int confN05 = 10, confM01 = 10, confM02 = 5, confM03 = 5, confM04 = 5, confM05 = 10;
 			if(file.exists()) {
-				System.out.println("Fichero de configuración encontrado en " + directory + "/conf.txt");
+				System.out.println("Fichero de configuración encontrado en " + directory + "\\conf.txt");
 				try {
 			         // Apertura del fichero y creacion de BufferedReader para poder
 			         // hacer una lectura comoda (disponer del metodo readLine()).
@@ -262,7 +262,9 @@ public class ProblemsView extends ViewPart {
 					new D08(metamodel), new M01(metamodel, confM01), new M02(metamodel, confM02),
 					new M03(metamodel, confM03), new M04(metamodel, confM04), new M05(metamodel, confM05),
 					new N05(metamodel, confN05), new N09(metamodel, dict), new N03(metamodel, dict),
-					new N04(metamodel, dict), new N06(metamodel,dict)
+					new N04(metamodel, dict), new N06(metamodel,dict), new N07(metamodel,dict), 
+					new N08(metamodel, dict), new BP03(metamodel), new D09(metamodel), new BP04(metamodel),
+					new D10(metamodel), new BP06(metamodel)
 					);
 			TreeParent createParentDesign = null;
 			TreeParent createParentBestPractice = null;

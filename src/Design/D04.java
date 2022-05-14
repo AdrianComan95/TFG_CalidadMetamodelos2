@@ -17,7 +17,7 @@ public class D04 implements ICriterion {
 	
 	EPackage metamodelo;
 	
-	String title = "(D04) Ciclos de composición";
+	String title = "(D04) No existen ciclos de composición";
 
 	public D04 (EPackage metamodelo) {
 		this.metamodelo = metamodelo;
