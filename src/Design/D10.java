@@ -38,7 +38,7 @@ public class D10 implements ICriterion {
 				for (EClassifier classifier2 : ((EClass) classifier).getEAllSuperTypes()) {
 					if ((classifier instanceof EClass) && !classifier2.equals(classifier)
 							&& ((EClass) classifier2).getEReferences().size() > 0) {
-						for (EReference reference : ((EClass) classifier2).getEReferences()) {
+						for (EReference reference : ((EClass) classifier).getEReferences()) {
 							if (reference.isContainment() && reference.getEOpposite() != null
 									&& reference.getEType().equals(classifier)) {
 								if (reference.getEOpposite().getLowerBound() != 0) {

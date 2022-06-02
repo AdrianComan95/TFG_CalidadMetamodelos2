@@ -40,11 +40,13 @@ public class D09 implements ICriterion {
 					if ((classifier instanceof EClass) && !classifier2.equals(classifier)
 							&& ((EClass) classifier2).getEAllReferences().size() > 0) {
 						for (EReference reference : ((EClass) classifier2).getEAllReferences()) {
-							if (reference.getEOpposite() != null) {
-								if (reference.isContainment() && reference.getEOpposite().getLowerBound() == 0) {
-									if (reference.getEType().equals(classifier)) {
-										nClassContained++;
-										break;
+							if (reference.getEOpposite() != null) { 
+								if (reference.isContainment() && reference.getEOpposite().getLowerBound() > 0) {
+									for (EReference reference2 : ((EClass) classifier).getEAllReferences()) {
+										if (reference2.isContainment() && reference.getEType().equals(reference2.getEType())) {
+											nClassContained++;
+											break;
+										}
 									}
 								}
 							}							
