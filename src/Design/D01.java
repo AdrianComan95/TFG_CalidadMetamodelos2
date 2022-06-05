@@ -14,9 +14,7 @@ import plugin_validar.views.Problem;
 
 public class D01 implements ICriterion {
 	
-	EPackage metamodelo;
-	
-	String title = "(D01) Atributo no se repite entre las clases de la misma jerarquia";
+	EPackage metamodelo;	
 
 	public D01 (EPackage metamodelo) {
 		this.metamodelo = metamodelo;
@@ -24,7 +22,7 @@ public class D01 implements ICriterion {
 	
 	@Override
 	public String getTitle() {
-		return this.title;
+		return "(D01) Atributo no se repite entre las clases de la misma jerarquia";
 	}
 
 	

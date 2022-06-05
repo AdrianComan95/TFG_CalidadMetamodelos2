@@ -12,7 +12,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.PlatformUI;
@@ -42,17 +41,9 @@ public class MenuContextualHandler extends org.eclipse.core.commands.AbstractHan
 		// Obtener el paquete raíz del metamodelo.
 		EPackage metamodelo = (EPackage)(resource.getContents().get(0));
 		
-		// Mostrar nombre del metamodelo en un cuadro de diálogo
-		/*MessageDialog.openInformation(HandlerUtil.getActiveWorkbenchWindowChecked(event).getShell(),
-		"Validador",
-		metamodelo.getName() + " tiene " + metamodelo.getEClassifiers().size() + " clases: "
-		+ nombres);*/
-		
 		//Llamar a la vista y actualizarla
 		ProblemsView view = (ProblemsView)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView
 				("plugin_validar.views.ProblemsView");
-		//ArrayList<String> prueba = new ArrayList<String>();
-		//prueba.add("Criterios de Calidad");
 		
 		view.update(metamodelo);
 		

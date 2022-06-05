@@ -262,7 +262,7 @@ public class ProblemsView extends ViewPart {
 					new D08(metamodel), new M01(metamodel, confM01), new M02(metamodel, confM02),
 					new M03(metamodel, confM03), new M04(metamodel, confM04), new M05(metamodel, confM05),
 					new N05(metamodel, confN05), new N09(metamodel, dict), new N03(metamodel, dict),
-					new N04(metamodel, dict), new N06(metamodel,dict), new N07(metamodel,dict), 
+					new N04(metamodel, dict), new N06(metamodel), new N07(metamodel,dict), 
 					new N08(metamodel, dict), new BP03(metamodel), new D09(metamodel), new BP04(metamodel),
 					new D10(metamodel), new BP06(metamodel)
 					);
@@ -336,7 +336,7 @@ public class ProblemsView extends ViewPart {
 		///////////////
 		private void initialize() {
 			TreeObject to1 = new TreeObject("No tiene ningun metamodelo seleccionado");
-			TreeObject to2 = new TreeObject("Click derecho sobre un metamodelo y seleccione 'Validar Metadelo'");
+			TreeObject to2 = new TreeObject("Click derecho sobre un metamodelo ecore y seleccione 'Validar Metadelo'");
 			
 			invisibleRoot = new TreeParent("");
 			invisibleRoot.addChild(to1);

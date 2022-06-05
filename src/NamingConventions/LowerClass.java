@@ -14,7 +14,7 @@ public class LowerClass implements ICriterion  {
 	
 	EPackage metamodelo;
 	
-	String title = "Clase empieza por letra en minuscula";
+	String title = "La Clase empieza por letra en minuscula";
 
 	public LowerClass (EPackage metamodelo) {
 		this.metamodelo = metamodelo;

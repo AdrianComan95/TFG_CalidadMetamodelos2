@@ -40,9 +40,11 @@ public class BP03 implements ICriterion {
 					if ((classifier instanceof EClass) && !classifier2.equals(classifier) && ((EClass) classifier2).getEAllReferences().size() > 0) {
 								for (EReference reference : ((EClass) classifier2).getEAllReferences()) {
 									if (reference.isContainment()) {
-										if (reference.getEType().equals(classifier)) {
-											classContainsAllOthers = true;
-											break;
+										if(reference.getEType() != null) {
+											if (reference.getEType().equals(classifier)) {
+												classContainsAllOthers = true;
+												break;
+											}
 										}
 										classContainsAllOthers = false;
 									}

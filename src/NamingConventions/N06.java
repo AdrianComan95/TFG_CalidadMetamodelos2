@@ -15,11 +15,9 @@ import plugin_validar.views.Problem;
 public class N06 implements ICriterion {
 
 	EPackage metamodelo;
-	IDictionary dictionary;
 
-	public N06(EPackage metamodelo, IDictionary dictionary) {
+	public N06(EPackage metamodelo) {
 		this.metamodelo = metamodelo;
-		this.dictionary = dictionary;
 	}
 
 	@Override

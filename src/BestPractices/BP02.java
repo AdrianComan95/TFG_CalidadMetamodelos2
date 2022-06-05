@@ -17,15 +17,13 @@ public class BP02 implements ICriterion {
 
 	EPackage metamodelo;
 
-	String title = "(BP02) Clase abstracta sin hijos";
-
 	public BP02(EPackage metamodelo) {
 		this.metamodelo = metamodelo;
 	}
 
 	@Override
 	public String getTitle() {
-		return this.title;
+		return "(BP02) Clase abstracta sin hijos";
 	}
 
 	public ProblemType getProblemType() {

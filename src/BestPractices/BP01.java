@@ -14,15 +14,13 @@ public class BP01 implements ICriterion {
 	
 	EPackage metamodelo;
 	
-	String title = " (BP01) Un atributo no se repite entre todas las clases especificas de una jerarquia (Problema de diamante)";
-	
 	public BP01 (EPackage metamodelo) {
 		this.metamodelo = metamodelo;
 	}
 	
 	@Override
 	public String getTitle() {
-		return this.title;
+		return "(BP01) Un atributo no se repite entre todas las clases especificas de una jerarquia (Problema de diamante)";
 	}
 	
 	public ProblemType getProblemType() { return ProblemType.BEST_PRACTICE; }
