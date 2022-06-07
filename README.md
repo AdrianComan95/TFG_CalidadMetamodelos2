@@ -1,6 +1,6 @@
 # TFG - Validando y mejorando la calidad de metamodelos EMF 
 
-### Autor: Adrian Vasile Coman --- Tutor: Esther Guerra Sánchez
+### Autor: Adrian Vasile Coman --- Tutora: Esther Guerra Sánchez
 
 **Resumen:**
 
