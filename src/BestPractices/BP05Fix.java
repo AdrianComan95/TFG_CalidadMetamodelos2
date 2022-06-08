@@ -30,6 +30,6 @@ public class BP05Fix implements IQuickfix {
 
 	@Override
 	public String getDescription() {
-		return "Convertir la clase " + classifier.getName() + " en clase abstract";
+		return "Convertir la clase " + classifier.getName() + " en clase abstracta";
 	}
 }

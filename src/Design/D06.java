@@ -17,7 +17,7 @@ public class D06 implements ICriterion {
 	
 	EPackage metamodelo;
 	
-	String title = "(D06) No existen ciclos de composición";
+	String title = "(D06) Ninguna asociación binaria es compuesta en ambos extremos";
 
 	public D06 (EPackage metamodelo) {
 		this.metamodelo = metamodelo;
@@ -44,7 +44,7 @@ public class D06 implements ICriterion {
 		    				  && reference.getEOpposite().isContainment() ) {
 	    				  Problem problem = new Problem();
 	    				  problem.setDescription("La clase " + classifier.getName() + "(" + classifier.getClassifierID() + ")"
-			    				  + "genera un ciclo de composición");
+			    				  + "contiene una asociación compuesta en la referencia " + reference.getName());
 			    		  IQuickfix fix = new D06Fix(metamodelo,classifier,reference);
 						  problem.addQuickfix(fix);
 						  problems.add(problem);

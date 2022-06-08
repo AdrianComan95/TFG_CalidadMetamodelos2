@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import Interfaces.IQuickfix;
 
@@ -23,7 +22,7 @@ public class D06Fix implements IQuickfix {
 
 	@Override
 	public void execute() {
-		EcoreUtil.delete(reference);
+		reference.setContainment(false);
 
 		try {
 			metamodelo.eResource().save(null);
@@ -34,7 +33,7 @@ public class D06Fix implements IQuickfix {
 
 	@Override
 	public String getDescription() {
-		return "Borrar  la referencia " + reference.getName() + " en la clase " + classifier.getName();
+		return "La referencia " + reference.getName() + " deja de ser de composición";
 	}
 
 }

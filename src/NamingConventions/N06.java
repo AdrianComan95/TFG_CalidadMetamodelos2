@@ -22,7 +22,7 @@ public class N06 implements ICriterion {
 
 	@Override
 	public String getTitle() {
-		return "(N06) Cada caracterustuca está nombrada en camle-case";
+		return "(N06) Cada elemento está nombrado en camle-case";
 	}
 
 	public ProblemType getProblemType() {

@@ -42,7 +42,7 @@ public class N09 implements ICriterion {
 
 		List<EClass> classifiersWithProblems = new ArrayList<EClass>();
 		for (EClassifier classifier : metamodelo.getEClassifiers()) {
-			if (classifier instanceof EClass && !classifiersWithProblems.contains(classifier.eClass())) {
+			if (classifier instanceof EClass && !classifiersWithProblems.contains(classifier)) {
 				IIndexWord idxWord = dictionary.getIndexWord(classifier.getName(), POS.NOUN);
 				if (idxWord != null) {
 					IWordID wordID = idxWord.getWordIDs().get(0); // 1st meaning
@@ -54,10 +54,10 @@ public class N09 implements ICriterion {
 					for (EClassifier classifier2 : metamodelo.getEClassifiers()) {
 						if (classifier instanceof EClass) {
 							for (IWord w : synset.getWords()) {
-								if (w.getLemma().equals(classifier2.getName())
-										&& !w.getLemma().equals(classifier.getName())) {
+								if (w.getLemma().equals(classifier2.getName().toLowerCase())
+										&& !w.getLemma().equals(classifier.getName().toLowerCase())) {
 									Problem problem = new Problem();
-									problem.setDescription("Existen dos clases con nombres que son sinonimos "
+									problem.setDescription("Existen dos clases con nombres que son sinonimos: "
 											+ classifier.getName() + " y " + classifier2.getName());
 									IQuickfix fix = new N09Fix(metamodelo, classifier);
 									problem.addQuickfix(fix);

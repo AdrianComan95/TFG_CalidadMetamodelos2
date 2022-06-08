@@ -1,6 +1,7 @@
 package plugin_validar.views;
 
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 
@@ -149,24 +150,39 @@ public class ProblemsView extends ViewPart {
  * expose its hierarchy.
  */
 		
-		public IDictionary createDictionary () throws IOException {
+		public IDictionary createDictionary (String pathWordNet, String directory) {
 			
 			 // construct the URL to the Wordnet dictionary directory
-			 String wnhome = "C:\\Program Files (x86)\\WordNet\\2.1";
+			 String wnhome = pathWordNet;
 			 String path = wnhome + File.separator + "dict";
-			 URL url = new URL("file", null, path);
+			 URL url = null;
+			try {
+				url = new URL("file", null, path);
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
 			
 			 // construct the dictionary object and open it
 			 IDictionary dict = new Dictionary ( url);
-			 dict . open ();
+			 try {
+				dict . open ();
+			} catch (IOException e) {
+				System.out.println("Ruta de la instalación de WordNet no encontrada");
+				TreeObject to1 = new TreeObject("Ruta de la instalación de WordNet no encontrada");
+				TreeObject to2 = new TreeObject("Verifique la ruta en el archivo: " + directory + "\\conf.txt");
+				
+				invisibleRoot = new TreeParent("");
+				invisibleRoot.addChild(to1);
+				invisibleRoot.addChild(to2);
+				
+				viewer.refresh();
+				e.printStackTrace();
+			}
 			 return dict;
 		}
 
 		///////////////
-		public void update(EPackage metamodel) throws IOException {
-					
-			//CREAMOS DICCIONARIO
-			IDictionary dict = createDictionary();
+		public void update(EPackage metamodel) throws IOException {								
 			
 			//COMPROBAMOS SI EXISTE EL FICHERO DE CONFIGURACIÓN Y 
 			//EN CASO CONTRARIO LO CREAMOS CON CON LOS VALORES POR DEFECTO
@@ -175,6 +191,7 @@ public class ProblemsView extends ViewPart {
 			File file = new File(directory + "/conf.txt");
 			//Variables de configuración por defecto
 			int confN05 = 10, confM01 = 10, confM02 = 5, confM03 = 5, confM04 = 5, confM05 = 10;
+			String pathWordNet = "C:\\Program Files (x86)\\WordNet\\2.1";
 			if(file.exists()) {
 				System.out.println("Fichero de configuración encontrado en " + directory + "\\conf.txt");
 				try {
@@ -188,18 +205,20 @@ public class ProblemsView extends ViewPart {
 			         String line;
 			         int index = 0;
 			         while((line=br.readLine())!=null) {
-			        	 String dataConf = line.substring(0, line.indexOf(' '));
+			        	 String dataConf = line.substring(0, line.indexOf(" /"));
 			        	 if (index == 0)
-			        		 confN05 = Integer.parseInt(dataConf);
+			        		 pathWordNet = dataConf;
 			        	 if (index == 1)
-			        		 confM01 = Integer.parseInt(dataConf);
+			        		 confN05 = Integer.parseInt(dataConf);
 			        	 if (index == 2)
-			        		 confM02 = Integer.parseInt(dataConf);
+			        		 confM01 = Integer.parseInt(dataConf);
 			        	 if (index == 3)
-			        		 confM03 = Integer.parseInt(dataConf);
+			        		 confM02 = Integer.parseInt(dataConf);
 			        	 if (index == 4)
-			        		 confM04 = Integer.parseInt(dataConf);
+			        		 confM03 = Integer.parseInt(dataConf);
 			        	 if (index == 5)
+			        		 confM04 = Integer.parseInt(dataConf);
+			        	 if (index == 6)
 			        		 confM05 = Integer.parseInt(dataConf);
 			        	 index ++;
 			         }
@@ -221,7 +240,8 @@ public class ProblemsView extends ViewPart {
 			      }
 			}
 			else {
-				String[] lines = { 
+				String[] lines = {
+						"C:\\Program Files (x86)\\WordNet\\2.1 /Ruta de instalación de WordNet",
 						"10 /N05. Nº Maximo de caracteres para los nombres de los elementos",
 						"10 /M01. Nº Maximo de atributos de una clase",
 						"5 /M02. Nº Maximo de referencias de una clase",
@@ -250,21 +270,25 @@ public class ProblemsView extends ViewPart {
 				}
 			}
 			
+			//CREAMOS DICCIONARIO
+			IDictionary dict = createDictionary(pathWordNet, directory);
+			
 			
 			TreeParent root = new TreeParent("Criterios de calidad no superados");
 			
 			//---CRITERIOS
 			
-			List<ICriterion> problems = List.of(new D03(metamodel), new BP01(metamodel),
-					new BP02(metamodel), new LowerClass(metamodel), new N01(metamodel),
-					new N02(metamodel), new D01(metamodel), new BP01(metamodel), new BP05(metamodel),
+			List<ICriterion> problems = List.of(new D01(metamodel),new D02(metamodel),
+					new LowerClass(metamodel), new N01(metamodel),
+					new N02(metamodel), new N03(metamodel, dict),new N04(metamodel, dict),
+					new D03(metamodel), new BP01(metamodel),new BP02(metamodel),
 					new D04(metamodel), new D05(metamodel), new D06(metamodel), new D07(metamodel),
 					new D08(metamodel), new M01(metamodel, confM01), new M02(metamodel, confM02),
 					new M03(metamodel, confM03), new M04(metamodel, confM04), new M05(metamodel, confM05),
-					new N05(metamodel, confN05), new N09(metamodel, dict), new N03(metamodel, dict),
-					new N04(metamodel, dict), new N06(metamodel), new N07(metamodel,dict), 
-					new N08(metamodel, dict), new BP03(metamodel), new D09(metamodel), new BP04(metamodel),
-					new D10(metamodel), new BP06(metamodel)
+					new N05(metamodel, confN05),new N06(metamodel), new N07(metamodel,dict), 
+					new N08(metamodel, dict),new N09(metamodel, dict), new BP03(metamodel),
+					new D09(metamodel), new BP04(metamodel),
+					new D10(metamodel), new BP05(metamodel), new BP06(metamodel)
 					);
 			TreeParent createParentDesign = null;
 			TreeParent createParentBestPractice = null;
@@ -336,7 +360,7 @@ public class ProblemsView extends ViewPart {
 		///////////////
 		private void initialize() {
 			TreeObject to1 = new TreeObject("No tiene ningun metamodelo seleccionado");
-			TreeObject to2 = new TreeObject("Click derecho sobre un metamodelo ecore y seleccione 'Validar Metadelo'");
+			TreeObject to2 = new TreeObject("Clic derecho sobre un metamodelo ecore y seleccione 'Validar metamodelo'");
 			
 			invisibleRoot = new TreeParent("");
 			invisibleRoot.addChild(to1);
@@ -357,12 +381,6 @@ public class ProblemsView extends ViewPart {
 		}
 	}
 	
-	/////////////
-//	public void update (Map<String,ArrayList<String>> problems) {
-//		ViewContentProvider provider = (ViewContentProvider)viewer.getContentProvider();
-//	     provider.update(problems);
-//	     viewer.refresh();
-//	}
 	
 	public void update (EPackage metamodel) {
 		this.metamodel = metamodel;
@@ -393,19 +411,6 @@ public class ProblemsView extends ViewPart {
 		hookContextMenu();
 		contributeToActionBars();
 	}
-
-	/*private void hookContextMenu() {
-		MenuManager menuMgr = new MenuManager("#PopupMenu");
-		menuMgr.setRemoveAllWhenShown(true);
-		menuMgr.addMenuListener(new IMenuListener() {
-			public void menuAboutToShow(IMenuManager manager) {
-				ProblemsView.this.fillContextMenu(manager);
-			}
-		});
-		Menu menu = menuMgr.createContextMenu(viewer.getControl());
-		viewer.getControl().setMenu(menu);
-		getSite().registerContextMenu(menuMgr, viewer);
-	}*/
 	
 	private void hookContextMenu() {
 		MenuManager menuMgr = new MenuManager("#PopupMenu");
@@ -480,31 +485,8 @@ public class ProblemsView extends ViewPart {
 		action1.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
 			getImageDescriptor(ISharedImages.IMG_TOOL_UNDO));
 		
-		/*action2 = new Action() {
-			public void run() {
-				showMessage("Action 2 executed");
-			}
-		};
-		action2.setText("Action 2");
-		action2.setToolTipText("Action 2 tooltip");
-		action2.setImageDescriptor(workbench.getSharedImages().
-				getImageDescriptor(ISharedImages.IMG_TOOL_UNDO));
-		doubleClickAction = new Action() {
-			public void run() {
-				IStructuredSelection selection = viewer.getStructuredSelection();
-				Object obj = selection.getFirstElement();
-				showMessage("Double-click detected on "+obj.toString());
-			}
-		};*/
 	}
 
-	/*private void hookDoubleClickAction() {
-		viewer.addDoubleClickListener(new IDoubleClickListener() {
-			public void doubleClick(DoubleClickEvent event) {
-				doubleClickAction.run();
-			}
-		});
-	}*/
 	private void showMessage(String message) {
 		MessageDialog.openInformation(
 			viewer.getControl().getShell(),

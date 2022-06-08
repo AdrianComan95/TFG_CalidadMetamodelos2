@@ -47,8 +47,6 @@ public class D07 implements ICriterion {
 		    			  }
 		    			  //SI COUNT LLEGA A DOS, ESE ATRIBUTO LO DEFINE LA CLASE Y ALGUNO DE SUS PADRES
 		    			  if (count == 2) {
-		    				  System.out.println(attribute1.getName() +"--ssss--" +(attribute2.getName())+ attribute1.getName().equals(attribute2.getName()));
-
 		    				  Problem problem = new Problem();
 		    				  problem.setDescription("La atributo "+ attribute1.getName() + " de la clase " + classifier.getName() + "(" 
 		    				  + classifier.getClassifierID() + ")" + "es un atributo heredado y anulado en la clase");
