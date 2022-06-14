@@ -20,7 +20,7 @@ public class BP01 implements ICriterion {
 	
 	@Override
 	public String getTitle() {
-		return "(BP01) Un atributo no se repite entre todas las clases especificas de una jerarquia (Problema de diamante)";
+		return "(BP01) No hay rutas generalizadas redundantes (Problema de diamante)";
 	}
 	
 	public ProblemType getProblemType() { return ProblemType.BEST_PRACTICE; }
